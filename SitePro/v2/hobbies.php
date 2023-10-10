@@ -3,6 +3,7 @@
         <div class="titre">Mes hobbies</div>
         <img class="smallpic" src="images/cat1.png " alt="Raisin :D"/>
     </header>
+        <!-- faaire un header conditionné pour le titre et l'image mappé -->
 
     
     <div class = flexrow>
