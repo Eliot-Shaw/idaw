@@ -6,7 +6,7 @@ body{
     display: flex;
     flex-direction: column;
     background-color: #e09f3e;
-    background-image: url("images/pumkin.png");
+    background-image: url("../images/pumkin.png");
 }
 header{
     display: flex;
