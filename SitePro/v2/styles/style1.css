@@ -48,6 +48,7 @@ header{
 }
 
 .titreMenu{
+    padding: 10px;
     text-align: center;
     font-size: xx-large;
 }
@@ -55,14 +56,22 @@ header{
 .elementMenu{
     text-align: center;
     font-size: medium;
-    border: 2px solid rgba(0, 0, 0, 0);
+    padding: 5px;
 }
 
 #currentpage {
     background-color: #ff990050;
-    border: 2px solid #fff3b0;
+    border: 2px #fff3b0;
 }
 
 a{
     color: #fff3b0;
+}
+
+hr.darker.dos {
+    border: 0;height: 2px;background: rgba(0, 0, 0, 0.2);
+}
+
+hr.darker.tres {
+    border: 0;height: 3px;background: rgba(0, 0, 0, 0.2);
 }

@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="CSS.css">
-    <title>xX_Hobbies_Xx --- SUPER SITE INTERNET</title>
-</head>
-<body>
+<?php require_once('templates/template-header.php');?>
     <header>
         <div class="titre">Mes hobbies</div>
         <img class="smallpic" src="images/cat1.png " alt="Raisin :D"/>
@@ -13,14 +6,7 @@
 
     
         <div class = flexrow>
-            <div class="menu menuNavigation">
-                        <div class="titreMenu">Menu</div>
-                        <br>
-                        <!-- creer plus des boites sur le menu qu'un texte -->
-                        <div class="elementMenu"><a href="index.html">Accueil</a></div>
-                        <div class="elementMenu"><a href="cv.html">CV</a></div>
-                        <div class="elementMenu" id="currentpage"><a href="hobbies.html">Hobbies</a></div>
-            </div>
+                <?php require_once('templates/template-nav_menu.php');?>
             
             <div class="contenu">
                 <h1>IT'S SPOOKY MONTH !!!!</h1>
@@ -50,9 +36,6 @@
 
         </div>
 
-</body>
-</html>
-
-
+<?php require_once('templates/template-footer.php');?>
 
 
