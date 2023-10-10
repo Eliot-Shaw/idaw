@@ -8,7 +8,7 @@
         // un tableau qui d\'efinit la structure du site
         $mymenu = array(
             // idPage titre
-            'index' => 'Accueil',
+            'accueil' => 'Accueil',
             'cv' => 'Cv',
             'hobbies' => 'Mes hobbies',
             'info-techniques' => 'Informations techniques',
