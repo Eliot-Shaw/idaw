@@ -40,10 +40,13 @@
 
         echo "
         <header>
-            <div class=\"display: flex; flex-direction: row;\">
-                <a href=\"index.php?page={$currentPageId}&lang=fr\"> <button class=\"frenchFlag\"></button> </a>
-                <br>
-                <a href=\"index.php?page={$currentPageId}&lang=en\"> <button class=\"englishFlag\"></button> </a>
+            <div class=\"languages\">
+                <img src=\"images/pumkin.png\" width=\"150px\"/>
+                <div>
+                    <a href=\"index.php?page={$currentPageId}&lang=fr\"> <button class=\"frenchFlag\"></button> </a>
+                    <br>
+                    <a href=\"index.php?page={$currentPageId}&lang=en\"> <button class=\"englishFlag\"></button> </a>
+                </div>
             </div>
             <div class=\"titre\">{$titre}</div>
             <img class=\"smallpic\" src=\"images/{$imagePath}\" alt=\"Raisin :D\"/>
@@ -62,7 +65,6 @@
         echo "</div><div class=\"contenu\">";
     }
 ?>                
-
 
     
     

@@ -15,11 +15,17 @@ body{
 
 header{
     display: flex;
+    align-items: center;
+}
+
+.languages{
+    display: flex; 
+    flex-direction: row;
+    width: 200px;
 }
 
 .preflexrow{
-    background-color: #e09f3e;
-    background-image: url("../images/pumkin.png");
+    background-size: 250px;
     min-height:500px;
 }
 
@@ -100,12 +106,16 @@ button{
 
 .englishFlag{
     background-image: url("../images/englishFlag.jpg");
-    background-size: 50px, 26.7px;
+    background-size: 50px, 26.6px;
     background-repeat: no-repeat;
 }
 
 .frenchFlag{
     background-image: url("../images/frenchFlag.jpg");
-    background-size: 50px, 26.7px;
+    background-size: 50px, 26.6px;
     background-repeat: no-repeat;
+}
+
+::selection{
+    background-color: rgb(17, 14, 11);
 }
