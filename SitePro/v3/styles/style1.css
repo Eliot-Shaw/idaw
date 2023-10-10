@@ -1,0 +1,77 @@
+p:hover{
+    color: #335c67;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    background-color: #e09f3e;
+    background-image: url("../images/pumkin.png");
+}
+header{
+    display: flex;
+}
+
+.flexrow{
+    background-color: #540b0ddc;
+    display: flex;
+    flex-direction: row;
+}
+
+.smallpic{
+    height: 100px;
+}
+
+.mediumpic{
+    height: 250px;
+}
+
+.titre{
+    flex-grow: 1;
+    color: #335c67;
+    font-size: 500%;
+    text-align: center;
+    font-weight: 450
+}
+
+.contenu{
+    padding-left: 10px;
+    flex-grow: 1;
+    color:#fff3b0;
+    border: 3px solid rgba(0, 0, 0, 0.2);
+    width: 1000px;
+}
+
+.menuNavigation{
+    flex-grow: 5;
+    color:#335c67;
+}
+
+.titreMenu{
+    padding: 10px;
+    text-align: center;
+    font-size: xx-large;
+}
+
+.elementMenu{
+    text-align: center;
+    font-size: medium;
+    padding: 5px;
+}
+
+#currentpage {
+    background-color: #ff990050;
+    border: 2px #fff3b0;
+}
+
+a{
+    color: #fff3b0;
+}
+
+hr.darker.dos {
+    border: 0;height: 2px;background: rgba(0, 0, 0, 0.2);
+}
+
+hr.darker.tres {
+    border: 0;height: 3px;background: rgba(0, 0, 0, 0.2);
+}
