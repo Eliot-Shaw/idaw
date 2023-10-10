@@ -18,22 +18,17 @@ header{
     align-items: center;
 }
 
-.languages{
-    display: flex; 
-    flex-direction: row;
-    width: 200px;
-}
 
 .preflexrow{
     background-size: 250px;
-    min-height:500px;
+    min-height:450px;
 }
 
 .flexrow{
     background-color: #470406ce;
     display: flex;
     flex-direction: row;
-    min-height: 500px;
+    min-height: 450px;
 }
 
 .smallpic{
@@ -69,24 +64,26 @@ header{
 .titreMenu{
     padding: 10px;
     text-align: center;
-    font-size: xx-large;
+    font-size: 350%;
 }
 
 .elementMenu{
     text-align: center;
     font-size: medium;
     padding: 5px;
+    font-size: 130%;
 }
 
-#currentpage {
+#currentpage, .elementMenu:hover{
     background-color: #dd952950;
     border: 2px #fff3b0;
+    border-radius: 10%;
     /* border-radius: 10%; afaire */
 }
 
 a{
     color: #fff3b0;
-    /* text-decoration: none; arreter les soulignement des liens des menus */
+    text-decoration: none;
 }
 
 hr.darker.dos {

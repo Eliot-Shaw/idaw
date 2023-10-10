@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
     <head>
-        <title>xX_SUPER-SITE-INTERNET_Xx</title>
+        <title>My Haloween Blog</title>
         <link rel="stylesheet" href="styles/style1.css" type="text/css"
         media="screen" title="default" charset="utf-8" />
     </head>
@@ -17,6 +17,7 @@
                 'info-techniques' => 'Informations techniques',
                 'contact' => 'Me contacter',
             );
+            $oppLanguage = 'en';
         }else{
             $mymenu = array(
                 'accueil' => 'Home page',
@@ -25,6 +26,7 @@
                 'info-techniques' => 'Technical informations',
                 'contact' => 'Contact me plz',
             );
+            $oppLanguage = 'fr';
         }
         
         $picPath = array(
@@ -40,14 +42,7 @@
 
         echo "
         <header>
-            <div class=\"languages\">
-                <img src=\"images/pumkin.png\" width=\"150px\"/>
-                <div>
-                    <a href=\"index.php?page={$currentPageId}&lang=fr\"> <button class=\"frenchFlag\"></button> </a>
-                    <br>
-                    <a href=\"index.php?page={$currentPageId}&lang=en\"> <button class=\"englishFlag\"></button> </a>
-                </div>
-            </div>
+            <a href=\"index.php?page={$currentPageId}&lang=$oppLanguage\"> <img src=\"images/pumkin.png\" width=\"150px\"/> </a>
             <div class=\"titre\">{$titre}</div>
             <img class=\"smallpic\" src=\"images/{$imagePath}\" alt=\"Raisin :D\"/>
         </header>
