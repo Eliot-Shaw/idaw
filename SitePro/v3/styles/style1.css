@@ -6,6 +6,7 @@ body{
     display: flex;
     flex-direction: column;
     background-color: #e09f3e;
+    background-image: url("../images/haloween-pattern.png");
 }
 
 header{
@@ -13,6 +14,7 @@ header{
 }
 
 .preflexrow{
+    background-color: #e09f3e;
     background-image: url("../images/pumkin.png");
     min-height:500px;
 }
