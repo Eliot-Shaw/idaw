@@ -7,7 +7,10 @@
 
 
 <div class = flexrow>
-    <?php require_once('templates/template-nav_menu.php');?>
+    <?php 
+        require_once('templates/template-nav_menu.php');
+        renderMenuToHTML('info-techniques');
+    ?>
 
     
     <div class="contenu">

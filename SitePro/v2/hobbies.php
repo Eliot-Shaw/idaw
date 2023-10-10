@@ -5,13 +5,16 @@
     </header>
 
     
-        <div class = flexrow>
-                <?php require_once('templates/template-nav_menu.php');?>
-            
-            <div class="contenu">
-                <h1>IT'S SPOOKY MONTH !!!!</h1>
-                <div style="display: flex;">
-                    <pre>
+    <div class = flexrow>
+        <?php 
+            require_once('templates/template-nav_menu.php');
+            renderMenuToHTML('hobbies');
+        ?>
+        
+        <div class="contenu">
+            <h1>IT'S SPOOKY MONTH !!!!</h1>
+            <div style="display: flex;">
+                <pre>
 
 
 
@@ -33,7 +36,6 @@
                 </pre>
                 <img class="mediumpic" src="images/ghost_retourne.png " alt="Raisin :D"/>
             </div>
-
         </div>
 
 <?php require_once('templates/template-footer.php');?>

@@ -2,12 +2,26 @@
     <div class="titreMenu">Menu</div>
     <hr class="darker tres">
     <!-- creer plus des boites sur le menu qu'un texte -->
-    <div class="elementMenu"><a href="index.php">Accueil</a></div>
-    <hr class="darker dos">
-    <div class="elementMenu"><a href="cv.php">CV</a></div>
-    <hr class="darker dos">
-    <div class="elementMenu"><a href="hobbies.php">Hobbies</a></div>
-    <hr class="darker dos">
-    <div class="elementMenu"><a href="info-techniques.php">Info techniques</a></div>
-    <hr class="darker dos">
-</div>
+
+<?php
+    function renderMenuToHTML($currentPageId) {
+        // un tableau qui d\'efinit la structure du site
+        $mymenu = array(
+            // idPage titre
+            'index' => 'Accueil',
+            'cv' => 'Cv',
+            'hobbies' => 'Mes hobbies',
+            'info-techniques' => 'Informations techniques',
+        );
+
+        foreach($mymenu as $pageId => $pageParameters) {
+            echo "<div class=\"elementMenu\"";
+            if($currentPageId == $pageId){echo"id=\"currentpage\"";}
+            echo"
+                ><a href=\"{$pageId}.php\">{$pageParameters}</a></div>
+                <hr class=\"darker dos\">
+            ";
+        }
+        echo"</div>";
+    }
+?>                
