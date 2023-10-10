@@ -1,5 +1,9 @@
-p:hover{
-    color: #335c67;
+:hover{
+    color: #ebb96f;
+}
+
+*{
+    font-family: monospace;
 }
 
 body{
@@ -37,7 +41,7 @@ header{
 .titre{
     flex-grow: 1;
     color: #335c67;
-    font-size: 500%;
+    font-size: 600%;
     text-align: center;
     font-weight: 450;
 }
@@ -69,7 +73,7 @@ header{
 }
 
 #currentpage {
-    background-color: #ff990050;
+    background-color: #dd952950;
     border: 2px #fff3b0;
     /* border-radius: 10%; afaire */
 }
