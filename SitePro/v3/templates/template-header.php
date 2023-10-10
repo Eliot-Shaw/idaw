@@ -8,30 +8,58 @@
     <body>
 
 <?php
-    function renderHeaderToHTML($currentPageId) {
-        // un tableau qui d\'efinit la structure du site
-        $pageId = array(
-            'accueil' => 'Accueil',
-            'cv' => 'Cv',
-            'hobbies' => 'Mes hobbies',
-            'info-techniques' => 'Informations techniques',
+    function renderHeaderToHTML($currentPageId, $currentLanguage) {
+        if($currentLanguage == 'fr'){
+            $mymenu = array(
+                'accueil' => 'Accueil',
+                'cv' => 'Curriculum Vitae',
+                'hobbies' => 'Mes hobbies',
+                'info-techniques' => 'Informations techniques',
+                'contact' => 'Me contacter',
+            );
+        }else{
+            $mymenu = array(
+                'accueil' => 'Home page',
+                'cv' => 'Resume',
+                'hobbies' => 'My hobbies',
+                'info-techniques' => 'Technical informations',
+                'contact' => 'Contact me plz',
+            );
+        }
+        
+        $picPath = array(
+            'accueil' => 'arcenciel.jpg',
+            'cv' => 'photo.jpg',
+            'hobbies' => 'cat1.png',
+            'info-techniques' => 'vacuum.png',
+            'contact' => 'contact.jpg',
         );
 
-        $titre = $pageID['{$currentPageId}'];
-        echo"
+        $titre = $mymenu[$currentPageId];
+        $imagePath = $picPath[$currentPageId];
+
+        echo "
         <header>
+            <div class=\"display: flex; flex-direction: row;\">
+                <a href=\"index.php?page={$currentPageId}&lang=fr\"> <button class=\"frenchFlag\"></button> </a>
+                <br>
+                <a href=\"index.php?page={$currentPageId}&lang=en\"> <button class=\"englishFlag\"></button> </a>
+            </div>
             <div class=\"titre\">{$titre}</div>
-            <img class=\"smallpic\" src=\"images/cat1.png\" alt=\"Raisin :D\"/>
+            <img class=\"smallpic\" src=\"images/{$imagePath}\" alt=\"Raisin :D\"/>
         </header>
         
-        <div class = flexrow>
-        <?php 
-            require_once('templates/template-nav_menu.php');
-            renderMenuToHTML({$currentPageId});
-        ?>
-        
-        <div class=\"contenu\">
+        <div class = \"preflexrow\">
+            <div class = \"flexrow\">
         ";
+        
+        require_once('templates/template-nav_menu.php');
+        foreach($mymenu as $pageId => $elementMenu) {
+            $isCurrent = false;
+            if($currentPageId == $pageId){$isCurrent = true;}
+            renderMenuToHTML($pageId, $elementMenu, $isCurrent, $currentLanguage);
+        }
+        echo "</div><div class=\"contenu\">";
     }
 ?>                
 

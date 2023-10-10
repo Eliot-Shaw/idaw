@@ -2,17 +2,26 @@
     require_once("templates/template-header.php");
     $currentPageId = 'accueil';
     if(isset($_GET['page'])) {$currentPageId = $_GET['page'];}
+    $currentLanguage = 'fr';
+    if(isset($_GET['lang'])) {$currentLanguage = $_GET['lang'];}
 ?>
 
 <?php 
-    renderHeaderToHTML($currentPageId);
+    renderHeaderToHTML($currentPageId, $currentLanguage);
 ?>
 
 <section class="corps">
     <?php
-        $pageToInclude = $currentPageId . ".php";
-        if(is_readable($pageToInclude)) require_once($pageToInclude);
-        else require_once("error.php");
+        if($currentLanguage == 'fr'){
+            $pageToInclude = $currentPageId . ".php";
+            if(is_readable("pages/fr/" .$pageToInclude)) require_once("pages/fr/" .$pageToInclude);
+            else require_once("error.php");
+        }else{
+            $pageToInclude = $currentPageId . ".php";
+            if(is_readable("pages/en/" .$pageToInclude)) require_once("pages/en/" .$pageToInclude);
+            else require_once("error.php");    
+        }
+        
     ?>
 </section>
 
