@@ -16,6 +16,7 @@
                 'hobbies' => 'Mes hobbies',
                 'info-techniques' => 'Informations techniques',
                 'contact' => 'Me contacter',
+                'login' => 'Se connecter',
             );
             $oppLanguage = 'en';
         }else{
@@ -25,6 +26,7 @@
                 'hobbies' => 'My hobbies',
                 'info-techniques' => 'Technical informations',
                 'contact' => 'Contact me plz',
+                'login' => 'Connect',
             );
             $oppLanguage = 'fr';
         }
@@ -35,6 +37,8 @@
             'hobbies' => 'cat1.png',
             'info-techniques' => 'vacuum.png',
             'contact' => 'contact.jpg',
+            'login' => 'contact.jpg',
+            // TODO : AMODIF
         );
 
         $titre = $mymenu[$currentPageId];
