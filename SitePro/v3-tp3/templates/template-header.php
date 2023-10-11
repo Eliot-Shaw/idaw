@@ -5,14 +5,15 @@
             <head>
                 <title>My Haloween Blog</title>
                 <link rel=\"stylesheet\" href=\"
-    "
-    
+    ";
+    if($_COOKIE['css'] == style1) echo "styles/style1.css";
+    else echo "styles/style2.css";
     echo "
     \" type=\"text/css\"
         media=\"screen\" title=\"default\" charset=\"utf-8\" />
     </head>
     <body>
-    "
+    ";
 ?>
 
 <!doctype html>
