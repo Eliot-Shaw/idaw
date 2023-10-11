@@ -14,3 +14,7 @@
         </tr>
     </table>
 </form>
+
+
+
+<h3> Deconnexion en cliquant sur le nom d'utilisateur dans le menu </h3>

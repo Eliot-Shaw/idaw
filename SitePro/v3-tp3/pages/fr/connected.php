@@ -22,6 +22,7 @@
     if(!$successfullyLogged) {
         echo $errorText;
     } else {
-        echo "<h1>Bienvenu ".$login."</h1>";
+        $_SESSION['login'] = $login;
+        header("Location: ../../index.php");
     }
 ?>
