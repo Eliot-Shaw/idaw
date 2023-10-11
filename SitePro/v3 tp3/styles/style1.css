@@ -1,0 +1,118 @@
+:hover{
+    color: #ebb96f;
+}
+
+*{
+    font-family: monospace;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    background-color: #e09f3e;
+    background-image: url("../images/haloween-pattern.png");
+}
+
+header{
+    display: flex;
+    align-items: center;
+}
+
+
+.preflexrow{
+    background-size: 250px;
+    min-height:450px;
+}
+
+.flexrow{
+    background-color: #470406ce;
+    display: flex;
+    flex-direction: row;
+    min-height: 450px;
+}
+
+.smallpic{
+    height: 100px;
+}
+
+.mediumpic{
+    height: 250px;
+}
+
+.titre{
+    flex-grow: 1;
+    color: #335c67;
+    font-size: 600%;
+    text-align: center;
+    font-weight: 450;
+}
+
+.contenu{
+    padding-left: 10px;
+    flex-grow: 1;
+    color:#fff3b0;
+    border: 3px solid rgba(0, 0, 0, 0.2);
+    width: 1000px;
+}
+
+.menuNavigation{
+    flex-grow: 1;
+    color:#335c67;
+    max-width:250px;
+}
+
+.titreMenu{
+    padding: 10px;
+    text-align: center;
+    font-size: 350%;
+}
+
+.elementMenu{
+    text-align: center;
+    font-size: medium;
+    padding: 5px;
+    font-size: 130%;
+}
+
+#currentpage, .elementMenu:hover{
+    background-color: #dd952950;
+    border: 2px #fff3b0;
+    border-radius: 10%;
+    /* border-radius: 10%; afaire */
+}
+
+a{
+    color: #fff3b0;
+    text-decoration: none;
+}
+
+hr.darker.dos {
+    border: 0;height: 2px;background: rgba(0, 0, 0, 0.2);
+}
+
+hr.darker.tres {
+    border: 0;height: 3px;background: rgba(0, 0, 0, 0.2);
+}
+
+button{
+    border-radius: 8px;
+    border:none;
+    width: 50px;
+    height: 26.7px;
+}
+
+.englishFlag{
+    background-image: url("../images/englishFlag.jpg");
+    background-size: 50px, 26.6px;
+    background-repeat: no-repeat;
+}
+
+.frenchFlag{
+    background-image: url("../images/frenchFlag.jpg");
+    background-size: 50px, 26.6px;
+    background-repeat: no-repeat;
+}
+
+::selection{
+    background-color: rgb(17, 14, 11);
+}

@@ -1,3 +1,20 @@
+<?php
+    echo"
+        <!doctype html>
+        <html>
+            <head>
+                <title>My Haloween Blog</title>
+                <link rel=\"stylesheet\" href=\"
+    "
+    
+    echo "
+    \" type=\"text/css\"
+        media=\"screen\" title=\"default\" charset=\"utf-8\" />
+    </head>
+    <body>
+    "
+?>
+
 <!doctype html>
 <html>
     <head>
@@ -6,6 +23,9 @@
         media="screen" title="default" charset="utf-8" />
     </head>
     <body>
+
+
+
 
 <?php
     function renderHeaderToHTML($currentPageId, $currentLanguage) {
@@ -16,6 +36,7 @@
                 'hobbies' => 'Mes hobbies',
                 'info-techniques' => 'Informations techniques',
                 'contact' => 'Me contacter',
+                'login' => 'Se connecter',
             );
             $oppLanguage = 'en';
         }else{
@@ -25,6 +46,7 @@
                 'hobbies' => 'My hobbies',
                 'info-techniques' => 'Technical informations',
                 'contact' => 'Contact me plz',
+                'login' => 'Connect',
             );
             $oppLanguage = 'fr';
         }
@@ -35,6 +57,8 @@
             'hobbies' => 'cat1.png',
             'info-techniques' => 'vacuum.png',
             'contact' => 'contact.jpg',
+            'login' => 'contact.jpg',
+            // TODO : AMODIF
         );
 
         $titre = $mymenu[$currentPageId];
