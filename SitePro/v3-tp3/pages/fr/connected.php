@@ -1,4 +1,5 @@
 <?php
+    session_start();
     // on simule une base de données
     $users = array(
     // login => password
