@@ -6,8 +6,12 @@
                 <title>My Haloween Blog</title>
                 <link rel=\"stylesheet\" href=\"
     ";
-    if($_COOKIE['css'] == style1) echo "styles/style1.css";
-    else echo "styles/style2.css";
+
+    cssCookieLive();
+
+    if(isset($_GET['css'])) echo "styles/".$_GET['css'].".css";
+    elseif(isset($_COOKIE['css'])) echo "styles/".$_COOKIE['css'].".css";
+    else echo "styles/style1.css";
     echo "
     \" type=\"text/css\"
         media=\"screen\" title=\"default\" charset=\"utf-8\" />
@@ -15,18 +19,6 @@
     <body>
     ";
 ?>
-
-<!doctype html>
-<html>
-    <head>
-        <title>My Haloween Blog</title>
-        <link rel="stylesheet" href="styles/style1.css" type="text/css"
-        media="screen" title="default" charset="utf-8" />
-    </head>
-    <body>
-
-
-
 
 <?php
     function renderHeaderToHTML($currentPageId, $currentLanguage) {
@@ -87,4 +79,8 @@
 ?>                
 
     
-    
+<?php
+    function cssCookieLive(){
+        if(isset($_GET['css'])) setcookie('css', $_GET['css']);
+    }
+?>
