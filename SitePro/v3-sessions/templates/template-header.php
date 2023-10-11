@@ -51,7 +51,7 @@
             'hobbies' => 'cat1.png',
             'info-techniques' => 'vacuum.png',
             'contact' => 'contact.jpg',
-            'login' => 'contact.jpg',
+            'login' => 'sous.jpg',
             // TODO : AMODIF
         );
 
@@ -62,7 +62,7 @@
         <header>
             <a href=\"index.php?page={$currentPageId}&lang=$oppLanguage\"> <img src=\"images/pumkin.png\" width=\"150px\"/> </a>
             <div class=\"titre\">{$titre}</div>
-            <img class=\"smallpic\" src=\"images/{$imagePath}\" alt=\"Raisin :D\"/>
+            <img class=\"smallpic\" src=\"images/{$imagePath}\" width=100px height=100px alt=\"Raisin :D\"/>
         </header>
         
         <div class = \"preflexrow\">
