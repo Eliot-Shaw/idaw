@@ -8,9 +8,7 @@
                 <link rel=\"stylesheet\" href=\"
     ";
 
-    cssCookieLive();
-
-    if(isset($_GET['css'])) echo "styles/".$_GET['css'].".css";
+    if(isset($_POST['css'])) {setcookie('css', $_POST['css']); echo "styles/".$_POST['css'].".css";}
     elseif(isset($_COOKIE['css'])) echo "styles/".$_COOKIE['css'].".css";
     else echo "styles/style1.css";
     echo "
@@ -77,10 +75,3 @@
         echo "</div><div class=\"contenu\">";
     }
 ?>                
-
-    
-<?php
-    function cssCookieLive(){
-        if(isset($_GET['css'])) setcookie('css', $_GET['css']);
-    }
-?>
