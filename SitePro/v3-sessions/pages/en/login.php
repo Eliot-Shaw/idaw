@@ -17,4 +17,4 @@
 
 <br>
 
-<h3> Disconnect by clicking on your name above the menu </h3>
+<h3> Once connected, disconnect by clicking on your name </h3>
