@@ -52,7 +52,6 @@
             'info-techniques' => 'vacuum.png',
             'contact' => 'contact.jpg',
             'login' => 'sous.jpg',
-            // TODO : AMODIF
         );
 
         $titre = $mymenu[$currentPageId];
