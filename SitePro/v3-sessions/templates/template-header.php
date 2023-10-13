@@ -44,7 +44,7 @@
         }
         
         $picPath = array(
-            'accueil' => 'arcenciel.jpg',
+            'accueil' => 'logo.png',
             'cv' => 'photo.jpg',
             'hobbies' => 'cat1.png',
             'info-techniques' => 'vacuum.png',
@@ -57,9 +57,9 @@
 
         echo "
         <header>
-            <a href=\"index.php?page={$currentPageId}&lang=$oppLanguage\"> <img src=\"images/pumkin.png\" width=\"150px\"/> </a>
+            <a style=\"padding-left:60px;\" href=\"index.php?page=accueil&lang=$currentLanguage\"> <img src=\"images/{$imagePath}\" width=\"125px\"/> </a>
             <div class=\"titre\">{$titre}</div>
-            <img class=\"smallpic\" src=\"images/{$imagePath}\" width=100px height=100px alt=\"Raisin :D\"/>
+            <a href=\"index.php?page={$currentPageId}&lang=$oppLanguage\"> <img src=\"images/pumkin.png\" width=\"150px\"/> </a>
         </header>
         
         <div class = \"preflexrow\">

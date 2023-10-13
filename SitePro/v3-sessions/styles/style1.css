@@ -31,14 +31,6 @@ header{
     min-height: 450px;
 }
 
-.smallpic{
-    height: 100px;
-}
-
-.mediumpic{
-    height: 250px;
-}
-
 .titre{
     flex-grow: 1;
     color: #335c67;

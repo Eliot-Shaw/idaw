@@ -31,14 +31,6 @@ header{
     min-height: 450px;
 }
 
-.smallpic{
-    height: 100px;
-}
-
-.mediumpic{
-    height: 250px;
-}
-
 .titre{
     flex-grow: 1;
     color: #fff3b0;
@@ -77,7 +69,6 @@ header{
     background-color: #dd952950;
     border: 2px #fff3b0;
     border-radius: 10%;
-    /* border-radius: 10%; afaire */
 }
 
 a{
