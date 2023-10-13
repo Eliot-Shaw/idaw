@@ -1,7 +1,9 @@
 <div class="menu menuNavigation" style="border: 3px solid rgba(0, 0, 0, 0.2);">
         <div class="titreMenu"> 
 <?php
-    if(isset($_SESSION['login'])) echo "<a href=\"pages/fr/disconnect.php\">{$_SESSION['login']}</a>";
+    $_GET['lang'] = 'fr';
+    if(isset($_GET['lang'])) $lang = $_GET['lang'];
+    if(isset($_SESSION['login'])) echo "<a href=\"pages/{$lang}/disconnect.php\">{$_SESSION['login']}</a>";
     else echo "Menu";
     echo "</div>
     <hr class=\"darker tres\">

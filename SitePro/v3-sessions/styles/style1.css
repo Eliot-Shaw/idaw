@@ -115,3 +115,13 @@ button{
 ::selection{
     background-color: rgb(17, 14, 11);
 }
+
+select {
+    background-color: #470406ce;
+    color:#fff3b0;
+}
+
+input {
+    background-color: #470406ce;
+    color:#fff3b0;
+}
