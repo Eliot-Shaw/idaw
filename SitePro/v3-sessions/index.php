@@ -12,12 +12,13 @@
     renderHeaderToHTML($currentPageId, $currentLanguage);
 ?>
 
-    <form id="style_form" action="index.php" method="POST">
-        <select name="css">
+
+    <form id="style_form" action="index.php" method="GET">
+        <select name="css" onchange='this.form.submit();'>
+            <option value="None">Select style</option>
             <option value="style1">style1</option>
             <option value="style2">style2</option>
         </select>
-        <input type="submit" value="Appliquer"/>
     </form>
 
 <section class="corps">
@@ -31,7 +32,6 @@
             if(is_readable("pages/en/" .$pageToInclude)) require_once("pages/en/" .$pageToInclude);
             else require_once("error.php");    
         }
-        
     ?>
 </section>
 

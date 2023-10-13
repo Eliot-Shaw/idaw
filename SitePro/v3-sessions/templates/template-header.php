@@ -8,7 +8,7 @@
                 <link rel=\"stylesheet\" href=\"
     ";
 
-    if(isset($_POST['css'])) {setcookie('css', $_POST['css']); echo "styles/".$_POST['css'].".css";}
+    if(isset($_GET['css'])) {setcookie('css', $_GET['css']); echo "styles/".$_GET['css'].".css";}
     elseif(isset($_COOKIE['css'])) echo "styles/".$_COOKIE['css'].".css";
     else echo "styles/style1.css";
     echo "
