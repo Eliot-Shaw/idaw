@@ -17,7 +17,7 @@
     $request = $pdo->prepare("INSERT INTO `users` (`id`, `nom`, `email`) VALUES (NULL, '{$_GET['user']}', '{$_GET['email']}');");
     $request->execute();
 
-    $request = $pdo->prepare("DELETE FROM users WHERE `users`.`id` = {$_GET['edit']}");
+    $request = $pdo->prepare("DELETE FROM users WHERE `users`.`id` = {$_GET['update']}");
     $request->execute();
 
     /*** close the database connection ***/

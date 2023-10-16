@@ -42,27 +42,44 @@
                 <td><input type=\"submit\" name=\"edit\" value=\"".$reponse->id."\"/></td>
             </tr>
         ";
+        if(isset($_GET['edit'])){
+            if($reponse->id == $_GET['edit']){
+                $edit_id = $reponse->id;
+                $edit_nom = $reponse->nom;
+                $edit_email = $reponse->email;
+            }
+        }
     }
     echo "
         </table>
-    ";
-
-
-    echo "
         <br>
         <table>
             <tr>
                 <th>UserName :</th>
-                <td><input type=\"text\" name=\"user\"></td>
+                <td><input type=\"text\" name=\"user\"
+    ";
+    if(isset($edit_nom)) echo "value = \"".$edit_nom."\"";
+    echo "
+                ></td>
             </tr>
             <tr>
                 <th>Email :</th>
-                <td><input type=\"email\" name=\"email\"></td>
+                <td><input type=\"email\" name=\"email\"
+    ";
+    if(isset($edit_email)) echo "value = \"".$edit_email."\"";
+    echo "
+                ></td>
             </tr>
         <br>
             <tr>
                 <th></th>
                 <td><input type=\"submit\" name=\"add\" value=\"Add value\"/></td> 
+                <td><input type=\"submit\" name=\"validate\"
+    ";
+    if(isset($edit_id)) echo "value = \"".$edit_id."\"";
+    else echo "value = \"\" style=\"hidden:true\"";
+    echo "
+                /></td> 
             </tr>
         </table>
     ";
