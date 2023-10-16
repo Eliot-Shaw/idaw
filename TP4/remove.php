@@ -17,11 +17,14 @@
     echo "cee";
     print_r($_POST);
 
-    $request = $pdo->prepare("INSERT INTO `users` (`id`, `nom`, `email`) VALUES (NULL, '{$_POST['user']}', '{$_POST['email']}');");
+    foreach($_POST['remove'] as $id_remove){
+        $request = $pdo->prepare("DELETE FROM users WHERE `users`.`id` = {$id_remove}");
+        $request->execute();
+    }
 
-    $request->execute();
+    
 
     /*** close the database connection ***/
     $pdo = null;
-    header('Location: users.php');
+    // header('Location: users.php');
 ?>
