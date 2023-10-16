@@ -14,10 +14,7 @@
         echo 'Erreur : '.$erreur->getMessage();
     }
 
-    echo "cee";
-    print_r($_POST);
-
-    $request = $pdo->prepare("INSERT INTO `users` (`id`, `nom`, `email`) VALUES (NULL, '{$_POST['user']}', '{$_POST['email']}');");
+    $request = $pdo->prepare("INSERT INTO `users` (`id`, `nom`, `email`) VALUES (NULL, '{$_GET['user']}', '{$_GET['email']}');");
 
     $request->execute();
 

@@ -21,42 +21,52 @@
 
     // retrieve data from database using fetch(PDO::FETCH_OBJ) and
     $reponss = $request->fetchAll(PDO::FETCH_OBJ);
-
+    echo "
+        <form id=\"add_entry_form\" action=\"logic.php\" method=\"GET\">
+    ";
+    echo "
+        <table>
+        <th>id</th>
+        <th>nom</th>
+        <th>email</th>
+        <th>remove</th>
+        <th>edit</th>
+    ";
     foreach($reponss as $reponse){
-        echo "";
-        echo "id: " . $reponse->id . "   nom: " . $reponse->nom ."    email : ". $reponse->email . "<br>";
+        echo "
+            <tr>
+                <td>" . $reponse->id . "</td>
+                <td>" . $reponse->nom ."</td>
+                <td>". $reponse->email . "</td>
+                <td><input type=\"submit\" name=\"remove\" value=\"".$reponse->id."\"/></td>
+                <td><input type=\"submit\" name=\"edit\" value=\"".$reponse->id."\"/></td>
+            </tr>
+        ";
     }
+    echo "
+        </table>
+    ";
+
+
+    echo "
+        <br>
+        <table>
+            <tr>
+                <th>UserName :</th>
+                <td><input type=\"text\" name=\"user\"></td>
+            </tr>
+            <tr>
+                <th>Email :</th>
+                <td><input type=\"email\" name=\"email\"></td>
+            </tr>
+        <br>
+            <tr>
+                <th></th>
+                <td><input type=\"submit\" name=\"add\" value=\"Add value\"/></td> 
+            </tr>
+        </table>
+    ";
 
     /*** close the database connection ***/
     $pdo = null;
 ?>
-
-<br>
-
-<form id="add_entry_form" action="add_entry.php" method="POST">
-    <table>
-        <tr>
-            <th>UserName :</th>
-            <td><input type="text" name="user"></td>
-            </tr>
-            <tr>
-            <th>Email :</th>
-            <td><input type="email" name="email"></td>
-            </tr>
-            <tr>
-            <th></th>
-            <td><input type="submit" value="Validate" /></td> 
-        </tr>
-    </table>
-</form>
-
-
-<form id="remove_form" action="remove.php" method="POST">
-    <table>
-        <td><input type="submit" value="Remove all selected !" /></td> 
-    </table>
-</form>
-
-<form id="checkbox_form" method="POST">
-    <input type="checkbox" id="selected" name="selected"/>
-</form>
