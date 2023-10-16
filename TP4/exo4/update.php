@@ -14,10 +14,10 @@
         echo 'Erreur : '.$erreur->getMessage();
     }
 
-    $request = $pdo->prepare("INSERT INTO `users` (`id`, `nom`, `email`) VALUES (NULL, '{$_GET['user']}', '{$_GET['email']}');");
+    $request = $pdo->prepare("DELETE FROM users WHERE `users`.`id` = {$_GET['update']}");
     $request->execute();
 
-    $request = $pdo->prepare("DELETE FROM users WHERE `users`.`id` = {$_GET['update']}");
+    $request = $pdo->prepare("INSERT INTO `users` (`id`, `nom`, `email`) VALUES ('{$_GET['update']}', '{$_GET['user']}', '{$_GET['email']}');");
     $request->execute();
 
     /*** close the database connection ***/

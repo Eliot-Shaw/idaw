@@ -15,7 +15,7 @@
     catch (PDOException $erreur) {
         echo 'Erreur : '.$erreur->getMessage();
     }
-    $request = $pdo->prepare("select * from users");
+    $request = $pdo->prepare("select * from users ORDER BY id ASC");
 
     $request->execute();
 
