@@ -17,9 +17,7 @@
     echo "cee";
     print_r($_POST);
 
-    foreach($_POST['remove'] as $id_remove){
-        $request = $pdo->prepare("DELETE FROM users WHERE `users`.`id` = {$id_remove}");
-    }
+    $request = $pdo->prepare("INSERT INTO `users` (`id`, `nom`, `email`) VALUES (NULL, '{$_POST['user']}', '{$_POST['email']}');");
 
     $request->execute();
 

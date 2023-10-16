@@ -23,6 +23,7 @@
     $reponss = $request->fetchAll(PDO::FETCH_OBJ);
 
     foreach($reponss as $reponse){
+        echo "<input type=\"checkbox\" id=\"selected\" name=\"selected\" />";
         echo "id: " . $reponse->id . "   nom: " . $reponse->nom ."    email : ". $reponse->email . "<br>";
     }
 
@@ -46,5 +47,12 @@
             <th></th>
             <td><input type="submit" value="Validate" /></td> 
         </tr>
+    </table>
+</form>
+
+
+<form id="remove_form" action="remove.php" method="POST">
+    <table>
+        <td><input type="submit" value="Remove all selected !" /></td> 
     </table>
 </form>
