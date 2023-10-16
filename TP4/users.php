@@ -30,4 +30,21 @@
     $pdo = null;
 ?>
 
+<br>
 
+<form id="add_entry_form" action="add_entry.php" method="POST">
+    <table>
+        <tr>
+            <th>UserName :</th>
+            <td><input type="text" name="user"></td>
+            </tr>
+            <tr>
+            <th>Email :</th>
+            <td><input type="email" name="email"></td>
+            </tr>
+            <tr>
+            <th></th>
+            <td><input type="submit" value="Validate" /></td> 
+        </tr>
+    </table>
+</form>
