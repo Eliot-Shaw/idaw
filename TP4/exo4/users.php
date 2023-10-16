@@ -29,8 +29,7 @@
         <th>id</th>
         <th>nom</th>
         <th>email</th>
-        <th>remove</th>
-        <th>edit</th>
+        <th>actions</th>
     ";
     foreach($reponss as $reponse){
         echo "
@@ -38,8 +37,10 @@
                 <td>" . $reponse->id . "</td>
                 <td>" . $reponse->nom ."</td>
                 <td>". $reponse->email . "</td>
-                <td><input type=\"submit\" name=\"remove\" value=\"".$reponse->id."\"/></td>
-                <td><input type=\"submit\" name=\"edit\" value=\"".$reponse->id."\"/></td>
+                <td>
+                    <input type=\"submit\" name=\"remove\" value=\"".$reponse->id."\"/>
+                    <input type=\"submit\" name=\"edit\" value=\"".$reponse->id."\"/>
+                </td>
             </tr>
         ";
         if(isset($_GET['edit'])){
