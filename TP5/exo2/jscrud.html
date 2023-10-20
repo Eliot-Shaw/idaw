@@ -77,31 +77,28 @@
         <div class="form-group row">
             <span class="col-sm-2"></span>
             <div class="col-sm-2">
-                <button type="submit" class="btn btn-primary form-control">Submit</button>
+                <button type="submit" class="btn btn-primary form-control">valider</button>
             </div>
         </div>
     </form>
+
+
     <script>
         function onFormSubmit() {
             // prevent the form to be sent to the server
             event.preventDefault();
             let nom = $("#inputNom").val();
 
-            if (!(nom === "")) {
+            if (nom === "") {
+                $("#inputNomRequis").html("Champ requis");
+            }else {
                 let prenom = $("#inputPrenom").val();
                 let ddn = $("#inputDdn").val().toString();
-                let adore;
-                if ($("#inputAdore").checked) {
-                    ddn = "Oui";
-                } else {
-                    ddn = "Non";
-                }
+                let adore = $("#inputAdore").prop("checked") ? "Oui" : "Non";
                 let remarque = $("#inputRemarque").val();
                 $("#inputNomRequis").html("");
                 $("#studentsTableBody").append(`<tr><td>${nom}</td><td>${prenom}</td><td>${ddn}</td><td>${adore}</td><td>${remarque}</td>
                 <td><input type="submit" id="edit" value="Edit"><input type="submit" id="delete" value="Delete"></td></tr>`);
-            } else {
-                $("#inputNomRequis").html("Champ requis");
             }
         }
     </script>
