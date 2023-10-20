@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : lun. 16 oct. 2023 à 06:46
+-- Généré le : lun. 16 oct. 2023 à 08:49
 -- Version du serveur : 8.0.31
 -- Version de PHP : 8.0.26
 
@@ -30,23 +30,21 @@ SET time_zone = "+00:00";
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `nom` varchar(30) NOT NULL,
-  `email` varchar(30) NOT NULL,
+  `name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `email` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `users`
 --
 
-INSERT INTO `users` (`id`, `nom`, `email`) VALUES
-(1, 'Shaw', 'eliot.shaw@etu.imt-nord-europe'),
-(2, 'Hoot', 'hoothoot@wooo.ht'),
-(3, 'a', 'a@a.a'),
-(4, 'IMasTerChef', 'imasterchef@gmail.com'),
-(5, 'NyAlain', 'uwu@nord-europe.fr'),
-(6, 'aa', 'aa@a.a'),
-(7, 'riri', 'riri@riri.riri');
+INSERT INTO `users` (`id`, `name`, `email`) VALUES
+(8, 'Regis', 'regis.terrades@gmail.com'),
+(4, 'Aurelien', 'aurelien.terrades@gmail.com'),
+(5, 'Stephanie', 'stephanie.terrades@gmail.com'),
+(6, 'Jerome', 'jerome.terrades@gmail.com'),
+(7, 'Lucas', 'lucas.terrades@gmail.com');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
