@@ -12,7 +12,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
         $request->execute();
         $result = $request->fetchAll(PDO::FETCH_OBJ);
 
-        checkAndResponse($request, $result);
+        checkAndResponse($request, ["data" => $result]);
         break;
 
     case 'POST':

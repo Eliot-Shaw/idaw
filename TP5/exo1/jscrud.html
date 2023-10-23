@@ -97,8 +97,11 @@
                 let adore = $("#inputAdore").prop("checked") ? "Oui" : "Non";
                 let remarque = $("#inputRemarque").val();
                 $("#inputNomRequis").html("");
+
                 $("#studentsTableBody").append(`<tr id="${nom}"><td>${nom}</td><td>${prenom}</td><td>${ddn}</td><td>${adore}</td><td>${remarque}</td>
                 <td><input type="submit" id="${nom}edit" value="Edit"><input type="submit" id="${nom}delete" value="Delete"></td></tr>`);
+                
+                
                 const editButton = document.getElementById(nom+"edit");
                 editButton.addEventListener("click", function(event){
                     choix = this.getAttribute("value");
