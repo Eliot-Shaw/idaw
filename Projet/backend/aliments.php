@@ -17,14 +17,33 @@
             break;
 
         case 'POST':
-
+            $request = $pdo->prepare("INSERT INTO aliments (nom_aliment) VALUES (:nom_aliment)");
             $data = json_decode(file_get_contents("php://input"), true);
-
-            $request = $pdo->prepare("INSERT INTO `aliments` (`id`, `name`, `email`) VALUES ('','" . $data['name'] . "','" . $data['mail'] . "')");
-            $request->execute();
-            $result = $request->fetchAll(PDO::FETCH_OBJ);
-
-            echo json_encode($result);
+            if(isset($data['nom_aliment'])){
+                $result = $request->execute([
+                    'nom_aliment' => $data['nom_aliment'],
+                ]);
+            if(!$result){
+                http_response_code(400);
+                break;
+            }
+            $result = $pdo->lastInsertId();
+            http_response_code(201);
+            echo $result;
+            break;
+            }
+            // elseif(isset($data['code_aliment'])){
+            //     echo"treeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee";
+            //     $ajout_aliment = @file_get_contents("https://world.openfoodfacts.org/api/v2/search?code=".$data['code_aliment']);
+            //     if($ajout_aliment===FALSE){
+            //         http_response_code(404);
+            //         break;
+            //     }
+            //     $reponse_ajout_aliment = (json_decode($ajout_aliment)->products);
+            //     var_dump($reponse_ajout_aliment);
+            //     break;
+            // }
+            
             break;
 
         case 'PUT':
