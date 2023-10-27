@@ -52,3 +52,5 @@ switch ($_SERVER['REQUEST_METHOD']) {
         echo json_encode(array('message' => 'Méthode non autorisée'));
         break;
 }
+
+?>
