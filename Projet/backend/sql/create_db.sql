@@ -222,11 +222,11 @@ INSERT INTO `categories` (`id_categorie`, `nom_categorie`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `compositionaliment`
+-- Structure de la table `composition_aliment`
 --
 
-DROP TABLE IF EXISTS `compositionaliment`;
-CREATE TABLE IF NOT EXISTS `compositionaliment` (
+DROP TABLE IF EXISTS `composition_aliment`;
+CREATE TABLE IF NOT EXISTS `composition_aliment` (
   `id_aliment_parent` int DEFAULT NULL,
   `id_aliment_compose` int DEFAULT NULL,
   `pourcentage_aliment` decimal(5,2) DEFAULT NULL,
@@ -235,10 +235,10 @@ CREATE TABLE IF NOT EXISTS `compositionaliment` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Déchargement des données de la table `compositionaliment`
+-- Déchargement des données de la table `composition_aliment`
 --
 
-INSERT INTO `compositionaliment` (`id_aliment_parent`, `id_aliment_compose`, `pourcentage_aliment`) VALUES
+INSERT INTO `composition_aliment` (`id_aliment_parent`, `id_aliment_compose`, `pourcentage_aliment`) VALUES
 (21, 2, '50.00'),
 (21, 6, '50.00'),
 (22, 9, '40.00'),
@@ -258,11 +258,11 @@ INSERT INTO `compositionaliment` (`id_aliment_parent`, `id_aliment_compose`, `po
 -- --------------------------------------------------------
 
 --
--- Structure de la table `compositionrepas`
+-- Structure de la table `composition_repas`
 --
 
-DROP TABLE IF EXISTS `compositionrepas`;
-CREATE TABLE IF NOT EXISTS `compositionrepas` (
+DROP TABLE IF EXISTS `composition_repas`;
+CREATE TABLE IF NOT EXISTS `composition_repas` (
   `id_repas` int DEFAULT NULL,
   `id_aliment` int DEFAULT NULL,
   `quantite` decimal(5,2) DEFAULT NULL,
@@ -271,10 +271,10 @@ CREATE TABLE IF NOT EXISTS `compositionrepas` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Déchargement des données de la table `compositionrepas`
+-- Déchargement des données de la table `composition_repas`
 --
 
-INSERT INTO `compositionrepas` (`id_repas`, `id_aliment`, `quantite`) VALUES
+INSERT INTO `composition_repas` (`id_repas`, `id_aliment`, `quantite`) VALUES
 (1, 1, '200.00'),
 (1, 2, '150.00'),
 (1, 10, '100.00'),
@@ -498,21 +498,21 @@ INSERT INTO `composition_val_nutritionnelles` (`id_val_nutritionnelle`, `id_alim
 -- --------------------------------------------------------
 
 --
--- Structure de la table `niveausport`
+-- Structure de la table `niveau_sport`
 --
 
-DROP TABLE IF EXISTS `niveausport`;
-CREATE TABLE IF NOT EXISTS `niveausport` (
+DROP TABLE IF EXISTS `niveau_sport`;
+CREATE TABLE IF NOT EXISTS `niveau_sport` (
   `id_niveau_sport` int NOT NULL AUTO_INCREMENT,
   `nom_niveau_sport` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id_niveau_sport`)
 ) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Déchargement des données de la table `niveausport`
+-- Déchargement des données de la table `niveau_sport`
 --
 
-INSERT INTO `niveausport` (`id_niveau_sport`, `nom_niveau_sport`) VALUES
+INSERT INTO `niveau_sport` (`id_niveau_sport`, `nom_niveau_sport`) VALUES
 (1, 'Faible'),
 (2, 'Moyenne'),
 (3, 'Forte'),
