@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : sam. 04 nov. 2023 à 10:47
+-- Généré le : sam. 04 nov. 2023 à 14:37
 -- Version du serveur : 8.0.31
 -- Version de PHP : 8.0.26
 
@@ -117,6 +117,7 @@ DROP TABLE IF EXISTS `niveau_sport`;
 CREATE TABLE IF NOT EXISTS `niveau_sport` (
   `id_niveau_sport` int NOT NULL AUTO_INCREMENT,
   `nom_niveau_sport` varchar(50) DEFAULT NULL,
+  `coef_sport` decimal(5,2) DEFAULT NULL,
   PRIMARY KEY (`id_niveau_sport`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
