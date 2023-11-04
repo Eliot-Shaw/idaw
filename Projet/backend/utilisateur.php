@@ -69,6 +69,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
         echo json_encode(['message' => 'Méthode non autorisée']);
         break;
 }
+$pdo = null;
 
 
 
@@ -89,6 +90,4 @@ function calculerMetabolisme($pdo, $userInfo) {
         return ($metabolismeHomme + $metabolismeFemme) / 2;
     }
 }
-
-$pdo = null;
 ?>
