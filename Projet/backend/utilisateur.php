@@ -7,13 +7,21 @@ require_once('init_pdo.php');
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET':
         if (isset($_GET['utilisateur'])){
+
+
             if ($_GET['utilisateur'] === 'all') {
                 $request = $pdo->prepare("SELECT * FROM utilisateurs");
                 $request->execute();
-                $result = $request->fetchAll(PDO::FETCH_OBJ);
-                $reponse = json_encode($result);
+                $utilisateurs = $request->fetchAll(PDO::FETCH_OBJ);
+
+                $usersWithMetabolism = [];
+                foreach ($utilisateurs as $userInfo) {
+                    $userInfo->metabolisme = calculerMetabolisme($pdo, $userInfo);;
+                    $usersWithMetabolism[] = $userInfo;
+                }
+
                 http_response_code(200);
-                echo $reponse;
+                echo json_encode($usersWithMetabolism);
             } elseif (!is_numeric($_GET['utilisateur'])) {
                 http_response_code(400);
                 echo json_encode(array('message' => 'Mauvaise valeur pour utilisateur'));
