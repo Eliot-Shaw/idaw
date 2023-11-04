@@ -6,7 +6,17 @@ require_once('init_pdo.php');
 
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET':
-        if (isset($_GET['utilisateur'])) {
+        if (isset($_GET['utilisateur']) && $_GET['utilisateur'] === 'all') {
+            $request = $pdo->prepare("SELECT * FROM utilisateurs");
+            $request->execute();
+            $result = $request->fetchAll(PDO::FETCH_OBJ);
+            $reponse = json_encode($result);
+            http_response_code(200);
+            echo $reponse;
+        } elseif (isset($_GET['utilisateur']) && !is_numeric($_GET['utilisateur'])) {
+            http_response_code(400);
+            echo json_encode(array('message' => 'Mauvaise valeur pour utilisateur'));
+        } elseif (isset($_GET['utilisateur'])) {
             $userId = $_GET['utilisateur'];
 
             $request_user = $pdo->prepare("SELECT * FROM utilisateurs WHERE id_utilisateur = :user_id");
