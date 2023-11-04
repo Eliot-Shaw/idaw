@@ -33,7 +33,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 $userInfo = $request_user->fetchAll(PDO::FETCH_OBJ)[0];
                 
                 // Calcul du métabolisme de l'utilisateur
-                $metabolisme = calculerMetabolisme($pdo, $userInfo);
+                $userInfo->metabolisme = calculerMetabolisme($pdo, $userInfo);
                 
 
                 $request_repas = $pdo->prepare("SELECT * FROM repas WHERE id_utilisateur = :user_id");
@@ -58,7 +58,6 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
                 $response = [
                     'details_utilisateur' => $userInfo,
-                    'metabolisme' => $metabolisme,
                     'descriptions_repas' => $repasInfo,
                     'valeurs_nutritionnelles_totales' => $valeursTotales,
                 ];
