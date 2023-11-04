@@ -29,15 +29,18 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
             // Calcul des valeurs nutritionnelles totales agrégées par type pour tous les repas de l'utilisateur
             $request_valeurs = $pdo->prepare("SELECT vn.nom_composition, SUM(cvn.quantite_composition) AS valeur_totale
-                                             FROM composition_val_nutritionnelles cvn
-                                             JOIN valeurs_nutritionnelles vn ON cvn.id_val_nutritionnelle = vn.id_composition
-                                             WHERE cvn.id_aliment IN 
-                                                (SELECT cr.id_aliment FROM composition_repas cr 
-                                                 JOIN repas r ON cr.id_repas = r.id_repas 
-                                                 WHERE r.id_utilisateur = :user_id)
-                                             GROUP BY vn.nom_composition");
+                                FROM composition_val_nutritionnelles cvn
+                                JOIN valeurs_nutritionnelles vn ON cvn.id_val_nutritionnelle = vn.id_composition
+                                WHERE cvn.id_aliment IN 
+                                    (SELECT ca.id_aliment_compose FROM composition_aliment ca 
+                                    WHERE ca.id_aliment_parent IN 
+                                        (SELECT cr.id_aliment FROM composition_repas cr 
+                                        JOIN repas r ON cr.id_repas = r.id_repas 
+                                        WHERE r.id_utilisateur = :user_id))
+                                GROUP BY vn.nom_composition");
             $request_valeurs->execute(['user_id' => $userId]);
             $valeursTotales = $request_valeurs->fetchAll(PDO::FETCH_OBJ);
+
 
             $result = [
                 'details_utilisateur' => $userInfo,
