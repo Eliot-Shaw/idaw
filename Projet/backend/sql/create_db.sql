@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : ven. 27 oct. 2023 à 07:22
+-- Généré le : sam. 04 nov. 2023 à 11:54
 -- Version du serveur : 8.0.31
 -- Version de PHP : 8.0.26
 
@@ -283,7 +283,9 @@ INSERT INTO `composition_repas` (`id_repas`, `id_aliment`, `quantite`) VALUES
 (2, 13, '120.00'),
 (3, 5, '180.00'),
 (3, 7, '90.00'),
-(3, 11, '160.00');
+(3, 11, '160.00'),
+(1, 25, '42.00'),
+(1, 24, '242.00');
 
 -- --------------------------------------------------------
 
@@ -505,18 +507,20 @@ DROP TABLE IF EXISTS `niveau_sport`;
 CREATE TABLE IF NOT EXISTS `niveau_sport` (
   `id_niveau_sport` int NOT NULL AUTO_INCREMENT,
   `nom_niveau_sport` varchar(50) DEFAULT NULL,
+  `coef_sport` decimal(5,2) DEFAULT NULL,
   PRIMARY KEY (`id_niveau_sport`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `niveau_sport`
 --
 
-INSERT INTO `niveau_sport` (`id_niveau_sport`, `nom_niveau_sport`) VALUES
-(1, 'Faible'),
-(2, 'Moyenne'),
-(3, 'Forte'),
-(0, 'Nulle');
+INSERT INTO `niveau_sport` (`id_niveau_sport`, `nom_niveau_sport`, `coef_sport`) VALUES
+(0, 'Nulle', '1.00'),
+(1, 'Faible', '1.37'),
+(2, 'Moyenne', '1.55'),
+(3, 'Soutenu', '1.80'),
+(4, 'Forte', '2.00');
 
 -- --------------------------------------------------------
 
