@@ -8,7 +8,6 @@ switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET':
         if (isset($_GET['utilisateur'])){
 
-
             if ($_GET['utilisateur'] === 'all') {
                 $request = $pdo->prepare("SELECT * FROM utilisateurs");
                 $request->execute();
@@ -68,6 +67,53 @@ switch ($_SERVER['REQUEST_METHOD']) {
         } else {
             http_response_code(400);
             echo json_encode(['message' => 'Variable utilisateur non fournie']);
+        }
+        break;
+
+    case 'POST':
+        if (isset($_POST['action'])){
+            $action = $_POST['action'];
+            switch ($action) {
+                case 'delete':
+                    if (isset($_POST['utilisateur_id'])) {
+                        $userId = $_POST['utilisateur_id'];
+                        $deleteUser = $pdo->prepare("DELETE FROM utilisateurs WHERE id_utilisateur = :user_id");
+                        $deleteUser->execute(['user_id' => $userId]);
+                        http_response_code(200);
+                        echo json_encode(['message' => 'Utilisateur supprimé avec succès']);
+                    } else {
+                        http_response_code(400);
+                        echo json_encode(['message' => 'ID de l\'utilisateur non fourni pour la suppression']);
+                    }
+                    break;
+                case 'update':
+                    if (isset($_POST['utilisateur_id'])) {
+                        $userId = $_POST['utilisateur_id'];
+    
+                        // Suppression de l'utilisateur existant
+                        $deleteUser = $pdo->prepare("DELETE FROM utilisateurs WHERE id_utilisateur = :user_id");
+                        $deleteUser->execute(['user_id' => $userId]);
+    
+                        // Ajout d'une nouvelle ligne avec les données mises à jour
+                        // Assurez-vous de collecter les nouvelles données à partir de $_POST ou $_GET
+                        // Puis, insérez les nouvelles données dans la base de données
+                        // ...
+    
+                        http_response_code(200);
+                        echo json_encode(['message' => 'Utilisateur édité avec succès']);
+                    } else {
+                        http_response_code(400);
+                        echo json_encode(['message' => 'ID de l\'utilisateur non fourni pour l\'édition']);
+                    }
+                    break;
+                default:
+                    http_response_code(400);
+                    echo json_encode(['message' => 'Action non reconnue']);
+                    break;
+            }
+        } else {
+            http_response_code(400);
+            echo json_encode(['message' => 'Variable action non fournie']);
         }
         break;
 
