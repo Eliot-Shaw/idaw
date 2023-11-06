@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `aliments` (
   `nom_aliment` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id_aliment`),
   KEY `nom_aliment` (`nom_aliment`(3))
-) ENGINE=MyISAM AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+);
 
 --
 -- Déchargement des données de la table `aliments`
@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `aliment_categories` (
   `id_categorie` int NOT NULL,
   PRIMARY KEY (`id_aliment`,`id_categorie`),
   KEY `id_categorie` (`id_categorie`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+);
 
 --
 -- Déchargement des données de la table `aliment_categories`
@@ -122,7 +122,7 @@ CREATE TABLE IF NOT EXISTS `categories` (
   `id_categorie` int NOT NULL AUTO_INCREMENT,
   `nom_categorie` varchar(100) NOT NULL,
   PRIMARY KEY (`id_categorie`)
-) ENGINE=MyISAM AUTO_INCREMENT=107 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+);
 
 --
 -- Déchargement des données de la table `categories`
@@ -232,7 +232,7 @@ CREATE TABLE IF NOT EXISTS `composition_aliment` (
   `pourcentage_aliment` decimal(5,2) DEFAULT NULL,
   KEY `id_aliment_parent` (`id_aliment_parent`),
   KEY `id_aliment_compose` (`id_aliment_compose`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+);
 
 --
 -- Déchargement des données de la table `composition_aliment`
@@ -268,7 +268,7 @@ CREATE TABLE IF NOT EXISTS `composition_repas` (
   `quantite` decimal(5,2) DEFAULT NULL,
   KEY `id_repas` (`id_repas`),
   KEY `id_aliment` (`id_aliment`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+);
 
 --
 -- Déchargement des données de la table `composition_repas`
@@ -300,7 +300,7 @@ CREATE TABLE IF NOT EXISTS `composition_val_nutritionnelles` (
   `quantite_composition` decimal(5,2) DEFAULT NULL,
   KEY `id_aliment_cplx` (`id_val_nutritionnelle`),
   KEY `id_aliment` (`id_aliment`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+);
 
 --
 -- Déchargement des données de la table `composition_val_nutritionnelles`
@@ -509,7 +509,7 @@ CREATE TABLE IF NOT EXISTS `niveau_sport` (
   `nom_niveau_sport` varchar(50) DEFAULT NULL,
   `coef_sport` decimal(5,2) DEFAULT NULL,
   PRIMARY KEY (`id_niveau_sport`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+);
 
 --
 -- Déchargement des données de la table `niveau_sport`
@@ -535,7 +535,7 @@ CREATE TABLE IF NOT EXISTS `repas` (
   `date_mange` date DEFAULT NULL,
   PRIMARY KEY (`id_repas`),
   KEY `id_utilisateur` (`id_utilisateur`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+);
 
 --
 -- Déchargement des données de la table `repas`
@@ -557,8 +557,8 @@ CREATE TABLE IF NOT EXISTS `utilisateurs` (
   `id_utilisateur` int NOT NULL AUTO_INCREMENT,
   `id_niveau_sport` int DEFAULT NULL,
   `role` varchar(50) DEFAULT NULL,
-  `identifiant` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `mdp` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `identifiant` varchar(50) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `mdp` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL,
   `nom_de_famille` varchar(50) DEFAULT NULL,
   `prenom` varchar(50) DEFAULT NULL,
   `genre` varchar(10) DEFAULT NULL,
@@ -568,7 +568,7 @@ CREATE TABLE IF NOT EXISTS `utilisateurs` (
   PRIMARY KEY (`id_utilisateur`),
   UNIQUE KEY `identifiant` (`identifiant`),
   KEY `id_niveau_sport` (`id_niveau_sport`)
-) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+);
 
 --
 -- Déchargement des données de la table `utilisateurs`
@@ -608,7 +608,7 @@ CREATE TABLE IF NOT EXISTS `valeurs_nutritionnelles` (
   `id_composition` int NOT NULL AUTO_INCREMENT,
   `nom_composition` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id_composition`)
-) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+);
 
 --
 -- Déchargement des données de la table `valeurs_nutritionnelles`
