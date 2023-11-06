@@ -30,7 +30,86 @@ switch ($_SERVER['REQUEST_METHOD']) {
             echo json_encode(['message' => 'ID d\'aliment non valide ou non fourni']);
         }
         break;
+// -----------------------------------------------------------------------------------------------
+    case 'POST':
+        $_POST = json_decode(file_get_contents('php://input'), true);
 
+        // Vérifier si le nom de l'aliment est fourni dans la requête POST
+        if (isset($_POST['nom_aliment'])) {
+            $nomAliment = $_POST['nom_aliment'];
+
+            // Préparation de la requête d'insertion
+            $insertAliment = $pdo->prepare("INSERT INTO aliments (nom_aliment) VALUES (:nom_aliment)");
+            $insertAliment->bindParam(':nom_aliment', $nomAliment);
+
+            // Exécution de la requête
+            if ($insertAliment->execute()) {
+                $newAlimentId = $pdo->lastInsertId(); // Récupération de l'ID de l'aliment ajouté
+
+                http_response_code(201);
+                echo json_encode(['message' => 'Aliment ajouté avec succès', 'id_aliment' => $newAlimentId]);
+            } else {
+                http_response_code(500);
+                echo json_encode(['message' => 'Échec de l\'ajout de l\'aliment']);
+            }
+        } else {
+            http_response_code(400);
+            echo json_encode(['message' => 'Nom d\'aliment non fourni']);
+        }
+        break;
+// -----------------------------------------------------------------------------------------------
+case 'PUT':
+        $_PUT = json_decode(file_get_contents('php://input'), true);
+
+        // Vérifier si l'ID de l'aliment et le nouveau nom sont fournis dans la requête PUT
+        if (isset($_PUT['id_aliment']) && isset($_PUT['nouveau_nom_aliment'])) {
+            $idAliment = $_PUT['id_aliment'];
+            $nouveauNomAliment = $_PUT['nouveau_nom_aliment'];
+
+            // Préparation de la requête de mise à jour
+            $updateAliment = $pdo->prepare("UPDATE aliments SET nom_aliment = :nouveau_nom_aliment WHERE id_aliment = :id_aliment");
+            $updateAliment->bindParam(':nouveau_nom_aliment', $nouveauNomAliment);
+            $updateAliment->bindParam(':id_aliment', $idAliment);
+
+            // Exécution de la requête
+            if ($updateAliment->execute()) {
+                http_response_code(200);
+                echo json_encode(['message' => 'Aliment mis à jour avec succès']);
+            } else {
+                http_response_code(500);
+                echo json_encode(['message' => 'Échec de la mise à jour de l\'aliment']);
+            }
+        } else {
+            http_response_code(400);
+            echo json_encode(['message' => 'ID d\'aliment ou nouveau nom d\'aliment non fourni']);
+        }
+        break;
+// -----------------------------------------------------------------------------------------------
+    case 'DELETE':
+        $_DELETE = json_decode(file_get_contents('php://input'), true);
+
+        // Vérifier si l'ID de l'aliment à supprimer est fourni dans la requête DELETE
+        if (isset($_DELETE['id_aliment'])) {
+            $idAliment = $_DELETE['id_aliment'];
+
+            // Préparation de la requête de suppression
+            $deleteAliment = $pdo->prepare("DELETE FROM aliments WHERE id_aliment = :id_aliment");
+            $deleteAliment->bindParam(':id_aliment', $idAliment);
+
+            // Exécution de la requête
+            if ($deleteAliment->execute()) {
+                http_response_code(200);
+                echo json_encode(['message' => 'Aliment supprimé avec succès']);
+            } else {
+                http_response_code(500);
+                echo json_encode(['message' => 'Échec de la suppression de l\'aliment']);
+            }
+        } else {
+            http_response_code(400);
+            echo json_encode(['message' => 'ID d\'aliment non fourni pour la suppression']);
+        }
+        break;
+        
     default:
         http_response_code(405);
         echo json_encode(['message' => 'Méthode non autorisée']);

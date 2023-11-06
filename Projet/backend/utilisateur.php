@@ -71,6 +71,8 @@ switch ($_SERVER['REQUEST_METHOD']) {
         break;
 // -----------------------------------------------------------------------------------------------
     case 'POST':
+        $_POST = json_decode(file_get_contents('php://input'), true);
+
         $idNiveauSport = $_POST['id_niveau_sport'];
         $role = $_POST['role'];
         $identifiant = $_POST['identifiant'];
@@ -126,7 +128,8 @@ switch ($_SERVER['REQUEST_METHOD']) {
         break;
 // -----------------------------------------------------------------------------------------------
     case 'DELETE':
-        parse_str(file_get_contents("php://input"), $_DELETE);
+        $_DELETE = json_decode(file_get_contents('php://input'), true);
+
         if (isset($_DELETE['utilisateur_id'])) {
             $userId = $_DELETE['utilisateur_id'];
             $deleteUser = $pdo->prepare("DELETE FROM utilisateurs WHERE id_utilisateur = :user_id");
@@ -140,7 +143,8 @@ switch ($_SERVER['REQUEST_METHOD']) {
         break;
 // -----------------------------------------------------------------------------------------------
     case 'PUT':
-        parse_str(file_get_contents("php://input"), $_PUT);
+        $_PUT = json_decode(file_get_contents('php://input'), true);
+
         if (isset($_PUT['utilisateur_id'])) {
             $userId = $_PUT['utilisateur_id'];
 
