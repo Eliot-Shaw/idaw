@@ -74,6 +74,64 @@ switch ($_SERVER['REQUEST_METHOD']) {
         if (isset($_POST['action'])){
             $action = $_POST['action'];
             switch ($action) {
+                case 'create':
+                    $idNiveauSport = $_POST['id_niveau_sport'];
+                    $role = $_POST['role'];
+                    $identifiant = $_POST['identifiant'];
+                    $mdp = $_POST['mdp'];
+                    $nomDeFamille = $_POST['nom_de_famille'];
+                    $prenom = $_POST['prenom'];
+                    $genre = $_POST['genre'];
+                    $age = $_POST['age'];
+                    $taille = $_POST['taille'];
+                    $poids = $_POST['poids'];
+                    
+                    $insertUser = $pdo->prepare("INSERT INTO `utilisateurs` (
+                        `id_niveau_sport`, 
+                        `role`, 
+                        `identifiant`, 
+                        `mdp`, 
+                        `nom_de_famille`, 
+                        `prenom`, 
+                        `genre`, 
+                        `age`, 
+                        `taille`, 
+                        `poids`
+                    ) VALUES (
+                        :id_niveau_sport,
+                        :rrole,
+                        :identifiant,
+                        :mdp,
+                        :nom_de_famille,
+                        :prenom,
+                        :genre,
+                        :age,
+                        :taille,
+                        :poids
+                    )");
+    
+                    // Liaison des valeurs aux paramètres
+                    $insertUser->bindParam(':id_niveau_sport', $idNiveauSport);
+                    $insertUser->bindParam(':rrole', $role);
+                    $insertUser->bindParam(':identifiant', $identifiant);
+                    $insertUser->bindParam(':mdp', $mdp);
+                    $insertUser->bindParam(':nom_de_famille', $nomDeFamille);
+                    $insertUser->bindParam(':prenom', $prenom);
+                    $insertUser->bindParam(':genre', $genre);
+                    $insertUser->bindParam(':age', $age);
+                    $insertUser->bindParam(':taille', $taille);
+                    $insertUser->bindParam(':poids', $poids);
+    
+                    // Exécutez la requête d'insertion
+                    $insertUser->execute();
+    
+                    // Récupérez l'ID de l'utilisateur nouvellement créé
+                    $newUserId = $pdo->lastInsertId();
+    
+                    // Répondez avec l'ID du nouvel utilisateur
+                    http_response_code(201);
+                    echo json_encode(['message' => 'Utilisateur créé avec succès', 'id_utilisateur' => $newUserId]);
+                    break;
                 case 'delete':
                     if (isset($_POST['utilisateur_id'])) {
                         $userId = $_POST['utilisateur_id'];
@@ -89,16 +147,16 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 case 'update':
                     if (isset($_POST['utilisateur_id'])) {
                         $userId = $_POST['utilisateur_id'];
-    
+
                         // Suppression de l'utilisateur existant
                         $deleteUser = $pdo->prepare("DELETE FROM utilisateurs WHERE id_utilisateur = :user_id");
                         $deleteUser->execute(['user_id' => $userId]);
-    
+
                         // Ajout d'une nouvelle ligne avec les données mises à jour
                         // Assurez-vous de collecter les nouvelles données à partir de $_POST ou $_GET
                         // Puis, insérez les nouvelles données dans la base de données
                         // ...
-    
+
                         http_response_code(200);
                         echo json_encode(['message' => 'Utilisateur édité avec succès']);
                     } else {
