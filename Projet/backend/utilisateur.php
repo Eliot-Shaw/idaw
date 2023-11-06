@@ -69,141 +69,131 @@ switch ($_SERVER['REQUEST_METHOD']) {
             echo json_encode(['message' => 'Variable utilisateur non fournie']);
         }
         break;
-
+// -----------------------------------------------------------------------------------------------
     case 'POST':
-        if (isset($_POST['action'])){
-            $action = $_POST['action'];
-            switch ($action) {
-                case 'create':
-                    $idNiveauSport = $_POST['id_niveau_sport'];
-                    $role = $_POST['role'];
-                    $identifiant = $_POST['identifiant'];
-                    $mdp = $_POST['mdp'];
-                    $nomDeFamille = $_POST['nom_de_famille'];
-                    $prenom = $_POST['prenom'];
-                    $genre = $_POST['genre'];
-                    $age = $_POST['age'];
-                    $taille = $_POST['taille'];
-                    $poids = $_POST['poids'];
-                    
-                    $insertUser = $pdo->prepare("INSERT INTO `utilisateurs` (
-                        `id_niveau_sport`, 
-                        `role`, 
-                        `identifiant`, 
-                        `mdp`, 
-                        `nom_de_famille`, 
-                        `prenom`, 
-                        `genre`, 
-                        `age`, 
-                        `taille`, 
-                        `poids`
-                    ) VALUES (
-                        :id_niveau_sport,
-                        :rrole,
-                        :identifiant,
-                        :mdp,
-                        :nom_de_famille,
-                        :prenom,
-                        :genre,
-                        :age,
-                        :taille,
-                        :poids
-                    )");
-    
-                    // Liaison des valeurs aux paramètres
-                    $insertUser->bindParam(':id_niveau_sport', $idNiveauSport);
-                    $insertUser->bindParam(':rrole', $role);
-                    $insertUser->bindParam(':identifiant', $identifiant);
-                    $insertUser->bindParam(':mdp', $mdp);
-                    $insertUser->bindParam(':nom_de_famille', $nomDeFamille);
-                    $insertUser->bindParam(':prenom', $prenom);
-                    $insertUser->bindParam(':genre', $genre);
-                    $insertUser->bindParam(':age', $age);
-                    $insertUser->bindParam(':taille', $taille);
-                    $insertUser->bindParam(':poids', $poids);
-    
-                    $insertUser->execute();
-                    $newUserId = $pdo->lastInsertId();
-    
-                    http_response_code(201);
-                    echo json_encode(['message' => 'Utilisateur créé avec succès', 'id_utilisateur' => $newUserId]);
-                    break;
-                case 'delete':
-                    if (isset($_POST['utilisateur_id'])) {
-                        $userId = $_POST['utilisateur_id'];
-                        $deleteUser = $pdo->prepare("DELETE FROM utilisateurs WHERE id_utilisateur = :user_id");
-                        $deleteUser->execute(['user_id' => $userId]);
-                        http_response_code(200);
-                        echo json_encode(['message' => 'Utilisateur supprimé avec succès']);
-                    } else {
-                        http_response_code(400);
-                        echo json_encode(['message' => 'ID de l\'utilisateur non fourni pour la suppression']);
-                    }
-                    break;
-                    case 'update':
-                        if (isset($_POST['utilisateur_id'])) {
-                            $userId = $_POST['utilisateur_id'];
-                    
-                            // Collecte des nouvelles données de l'utilisateur à mettre à jour
-                            $idNiveauSport = $_POST['id_niveau_sport'];
-                            $role = $_POST['role'];
-                            $identifiant = $_POST['identifiant'];
-                            $mdp = $_POST['mdp'];
-                            $nomDeFamille = $_POST['nom_de_famille'];
-                            $prenom = $_POST['prenom'];
-                            $genre = $_POST['genre'];
-                            $age = $_POST['age'];
-                            $taille = $_POST['taille'];
-                            $poids = $_POST['poids'];
-                    
-                            // Mettre à jour l'utilisateur dans la base de données
-                            $updateUser = $pdo->prepare("UPDATE `utilisateurs` SET 
-                                `id_niveau_sport` = :id_niveau_sport,
-                                `role` = :role,
-                                `identifiant` = :identifiant,
-                                `mdp` = :mdp,
-                                `nom_de_famille` = :nom_de_famille,
-                                `prenom` = :prenom,
-                                `genre` = :genre,
-                                `age` = :age,
-                                `taille` = :taille,
-                                `poids` = :poids
-                                WHERE `id_utilisateur` = :user_id");
-                    
-                            // Liaison des nouvelles valeurs aux paramètres
-                            $updateUser->bindParam(':id_niveau_sport', $idNiveauSport);
-                            $updateUser->bindParam(':role', $role);
-                            $updateUser->bindParam(':identifiant', $identifiant);
-                            $updateUser->bindParam(':mdp', $mdp);
-                            $updateUser->bindParam(':nom_de_famille', $nomDeFamille);
-                            $updateUser->bindParam(':prenom', $prenom);
-                            $updateUser->bindParam(':genre', $genre);
-                            $updateUser->bindParam(':age', $age);
-                            $updateUser->bindParam(':taille', $taille);
-                            $updateUser->bindParam(':poids', $poids);
-                            $updateUser->bindParam(':user_id', $userId);
-                    
-                            // Exécution de la requête de mise à jour
-                            $updateUser->execute();
-                    
-                            http_response_code(200);
-                            echo json_encode(['message' => 'Utilisateur édité avec succès']);
-                        } else {
-                            http_response_code(400);
-                            echo json_encode(['message' => 'ID de l\'utilisateur non fourni pour l\'édition']);
-                        }
-                        break;
-                default:
-                    http_response_code(400);
-                    echo json_encode(['message' => 'Action non reconnue']);
-                    break;
-            }
+        $idNiveauSport = $_POST['id_niveau_sport'];
+        $role = $_POST['role'];
+        $identifiant = $_POST['identifiant'];
+        $mdp = $_POST['mdp'];
+        $nomDeFamille = $_POST['nom_de_famille'];
+        $prenom = $_POST['prenom'];
+        $genre = $_POST['genre'];
+        $age = $_POST['age'];
+        $taille = $_POST['taille'];
+        $poids = $_POST['poids'];
+        
+        $insertUser = $pdo->prepare("INSERT INTO `utilisateurs` (
+            `id_niveau_sport`, 
+            `role`, 
+            `identifiant`, 
+            `mdp`, 
+            `nom_de_famille`, 
+            `prenom`, 
+            `genre`, 
+            `age`, 
+            `taille`, 
+            `poids`
+        ) VALUES (
+            :id_niveau_sport,
+            :role,
+            :identifiant,
+            :mdp,
+            :nom_de_famille,
+            :prenom,
+            :genre,
+            :age,
+            :taille,
+            :poids
+        )");
+
+        // Liaison des valeurs aux paramètres
+        $insertUser->bindParam(':id_niveau_sport', $idNiveauSport);
+        $insertUser->bindParam(':role', $role);
+        $insertUser->bindParam(':identifiant', $identifiant);
+        $insertUser->bindParam(':mdp', $mdp);
+        $insertUser->bindParam(':nom_de_famille', $nomDeFamille);
+        $insertUser->bindParam(':prenom', $prenom);
+        $insertUser->bindParam(':genre', $genre);
+        $insertUser->bindParam(':age', $age);
+        $insertUser->bindParam(':taille', $taille);
+        $insertUser->bindParam(':poids', $poids);
+
+        $insertUser->execute();
+        $newUserId = $pdo->lastInsertId();
+
+        http_response_code(201);
+        echo json_encode(['message' => 'Utilisateur créé avec succès', 'id_utilisateur' => $newUserId]);
+        break;
+// -----------------------------------------------------------------------------------------------
+    case 'DELETE':
+        parse_str(file_get_contents("php://input"), $_DELETE);
+        if (isset($_DELETE['utilisateur_id'])) {
+            $userId = $_DELETE['utilisateur_id'];
+            $deleteUser = $pdo->prepare("DELETE FROM utilisateurs WHERE id_utilisateur = :user_id");
+            $deleteUser->execute(['user_id' => $userId]);
+            http_response_code(200);
+            echo json_encode(['message' => 'Utilisateur supprimé avec succès']);
         } else {
             http_response_code(400);
-            echo json_encode(['message' => 'Variable action non fournie']);
+            echo json_encode(['message' => 'ID de l\'utilisateur non fourni pour la suppression']);
         }
         break;
+// -----------------------------------------------------------------------------------------------
+    case 'PUT':
+        parse_str(file_get_contents("php://input"), $_PUT);
+        if (isset($_PUT['utilisateur_id'])) {
+            $userId = $_PUT['utilisateur_id'];
 
+            // Collecte des nouvelles données de l'utilisateur à mettre à jour
+            $idNiveauSport = $_PUT['id_niveau_sport'];
+            $role = $_PUT['role'];
+            $identifiant = $_PUT['identifiant'];
+            $mdp = $_PUT['mdp'];
+            $nomDeFamille = $_PUT['nom_de_famille'];
+            $prenom = $_PUT['prenom'];
+            $genre = $_PUT['genre'];
+            $age = $_PUT['age'];
+            $taille = $_PUT['taille'];
+            $poids = $_PUT['poids'];
+
+            // Mettre à jour l'utilisateur dans la base de données
+            $updateUser = $pdo->prepare("UPDATE `utilisateurs` SET 
+                `id_niveau_sport` = :id_niveau_sport,
+                `role` = :role,
+                `identifiant` = :identifiant,
+                `mdp` = :mdp,
+                `nom_de_famille` = :nom_de_famille,
+                `prenom` = :prenom,
+                `genre` = :genre,
+                `age` = :age,
+                `taille` = :taille,
+                `poids` = :poids
+                WHERE `id_utilisateur` = :user_id");
+
+            // Liaison des nouvelles valeurs aux paramètres
+            $updateUser->bindParam(':id_niveau_sport', $idNiveauSport);
+            $updateUser->bindParam(':role', $role);
+            $updateUser->bindParam(':identifiant', $identifiant);
+            $updateUser->bindParam(':mdp', $mdp);
+            $updateUser->bindParam(':nom_de_famille', $nomDeFamille);
+            $updateUser->bindParam(':prenom', $prenom);
+            $updateUser->bindParam(':genre', $genre);
+            $updateUser->bindParam(':age', $age);
+            $updateUser->bindParam(':taille', $taille);
+            $updateUser->bindParam(':poids', $poids);
+            $updateUser->bindParam(':user_id', $userId);
+
+            // Exécution de la requête de mise à jour
+            $updateUser->execute();
+
+            http_response_code(200);
+            echo json_encode(['message' => 'Utilisateur édité avec succès']);
+        } else {
+            http_response_code(400);
+            echo json_encode(['message' => 'ID de l\'utilisateur non fourni pour l\'édition']);
+        }
+        break;
+// -----------------------------------------------------------------------------------------------
     default:
         http_response_code(405);
         echo json_encode(['message' => 'Méthode non autorisée']);
