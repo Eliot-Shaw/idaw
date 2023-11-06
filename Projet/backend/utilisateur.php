@@ -122,13 +122,9 @@ switch ($_SERVER['REQUEST_METHOD']) {
                     $insertUser->bindParam(':taille', $taille);
                     $insertUser->bindParam(':poids', $poids);
     
-                    // Exécutez la requête d'insertion
                     $insertUser->execute();
-    
-                    // Récupérez l'ID de l'utilisateur nouvellement créé
                     $newUserId = $pdo->lastInsertId();
     
-                    // Répondez avec l'ID du nouvel utilisateur
                     http_response_code(201);
                     echo json_encode(['message' => 'Utilisateur créé avec succès', 'id_utilisateur' => $newUserId]);
                     break;
@@ -144,26 +140,59 @@ switch ($_SERVER['REQUEST_METHOD']) {
                         echo json_encode(['message' => 'ID de l\'utilisateur non fourni pour la suppression']);
                     }
                     break;
-                case 'update':
-                    if (isset($_POST['utilisateur_id'])) {
-                        $userId = $_POST['utilisateur_id'];
-
-                        // Suppression de l'utilisateur existant
-                        $deleteUser = $pdo->prepare("DELETE FROM utilisateurs WHERE id_utilisateur = :user_id");
-                        $deleteUser->execute(['user_id' => $userId]);
-
-                        // Ajout d'une nouvelle ligne avec les données mises à jour
-                        // Assurez-vous de collecter les nouvelles données à partir de $_POST ou $_GET
-                        // Puis, insérez les nouvelles données dans la base de données
-                        // ...
-
-                        http_response_code(200);
-                        echo json_encode(['message' => 'Utilisateur édité avec succès']);
-                    } else {
-                        http_response_code(400);
-                        echo json_encode(['message' => 'ID de l\'utilisateur non fourni pour l\'édition']);
-                    }
-                    break;
+                    case 'update':
+                        if (isset($_POST['utilisateur_id'])) {
+                            $userId = $_POST['utilisateur_id'];
+                    
+                            // Collecte des nouvelles données de l'utilisateur à mettre à jour
+                            $idNiveauSport = $_POST['id_niveau_sport'];
+                            $role = $_POST['role'];
+                            $identifiant = $_POST['identifiant'];
+                            $mdp = $_POST['mdp'];
+                            $nomDeFamille = $_POST['nom_de_famille'];
+                            $prenom = $_POST['prenom'];
+                            $genre = $_POST['genre'];
+                            $age = $_POST['age'];
+                            $taille = $_POST['taille'];
+                            $poids = $_POST['poids'];
+                    
+                            // Mettre à jour l'utilisateur dans la base de données
+                            $updateUser = $pdo->prepare("UPDATE `utilisateurs` SET 
+                                `id_niveau_sport` = :id_niveau_sport,
+                                `role` = :role,
+                                `identifiant` = :identifiant,
+                                `mdp` = :mdp,
+                                `nom_de_famille` = :nom_de_famille,
+                                `prenom` = :prenom,
+                                `genre` = :genre,
+                                `age` = :age,
+                                `taille` = :taille,
+                                `poids` = :poids
+                                WHERE `id_utilisateur` = :user_id");
+                    
+                            // Liaison des nouvelles valeurs aux paramètres
+                            $updateUser->bindParam(':id_niveau_sport', $idNiveauSport);
+                            $updateUser->bindParam(':role', $role);
+                            $updateUser->bindParam(':identifiant', $identifiant);
+                            $updateUser->bindParam(':mdp', $mdp);
+                            $updateUser->bindParam(':nom_de_famille', $nomDeFamille);
+                            $updateUser->bindParam(':prenom', $prenom);
+                            $updateUser->bindParam(':genre', $genre);
+                            $updateUser->bindParam(':age', $age);
+                            $updateUser->bindParam(':taille', $taille);
+                            $updateUser->bindParam(':poids', $poids);
+                            $updateUser->bindParam(':user_id', $userId);
+                    
+                            // Exécution de la requête de mise à jour
+                            $updateUser->execute();
+                    
+                            http_response_code(200);
+                            echo json_encode(['message' => 'Utilisateur édité avec succès']);
+                        } else {
+                            http_response_code(400);
+                            echo json_encode(['message' => 'ID de l\'utilisateur non fourni pour l\'édition']);
+                        }
+                        break;
                 default:
                     http_response_code(400);
                     echo json_encode(['message' => 'Action non reconnue']);
