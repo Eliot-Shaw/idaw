@@ -44,38 +44,35 @@
             var nomAliment = document.getElementById('nom_aliment').value;
             var nomCategorie = document.getElementById('nom_categorie').value;
 
-            // Envoi du nom de l'aliment à la table "aliments"
             var xhrAliment = new XMLHttpRequest();
-            xhrAliment.open('POST', 'addAliment.php');
+            xhrAliment.open('POST', '../backend/aliment.php');
             xhrAliment.setRequestHeader('Content-Type', 'application/json');
             xhrAliment.send(JSON.stringify({ "nom_aliment": nomAliment }));
 
             xhrAliment.onload = function() {
-                if (xhrAliment.status === 200) {
+                if (xhrAliment.status === 201) {
+                    console.log('Aliment ajouté avec succès');
                     var idAliment = JSON.parse(xhrAliment.responseText).id_aliment;
 
-                    // Envoi de l'id de l'aliment et de la catégorie à la table "aliment_categories"
                     var xhrAlimentCategorie = new XMLHttpRequest();
-                    xhrAlimentCategorie.open('POST', 'categorie.php');
+                    xhrAlimentCategorie.open('POST', '../backend/aliment_categorie.php');
                     xhrAlimentCategorie.setRequestHeader('Content-Type', 'application/json');
                     xhrAlimentCategorie.send(JSON.stringify({ "id_aliment": idAliment, "id_categorie": nomCategorie }));
 
-                    var compositions = document.querySelectorAll('.composition');
-                    compositions.forEach(function(composition) {
-                        var nomComposition = composition.querySelector('.nomComposition').value;
-                        var valeurComposition = composition.querySelector('.valeurComposition').value;
-
-                        // Envoi de chaque composition à la table "composition_nutritionnelle"
-                        var xhrComposition = new XMLHttpRequest();
-                        xhrComposition.open('POST', 'addComposition.php');
-                        xhrComposition.setRequestHeader('Content-Type', 'application/json');
-                        xhrComposition.send(JSON.stringify({ "id_aliment": idAliment, "nom_composition": nomComposition, "quantite_composition": valeurComposition }));
-                    });
+                    xhrAlimentCategorie.onload = function() {
+                        console.log('Réponse de la requête aliment_categorie : ', xhrAlimentCategorie.responseText);
+                        if (xhrAlimentCategorie.status === 201) {
+                            console.log('Liaison aliment-categorie ajoutée avec succès');
+                        } else {
+                            console.error('Erreur lors de l\'ajout de la liaison aliment-categorie');
+                        }
+                    };
                 } else {
                     console.error('Erreur lors de l\'ajout de l\'aliment');
                 }
             };
         });
+
     </script>
 </body>
 </html>

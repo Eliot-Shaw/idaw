@@ -2,13 +2,9 @@
 header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: *");
 
-require_once('../init_pdo.php'); // Include the PDO file
+require_once('init_pdo.php'); // Include the PDO file
 
 switch ($_SERVER['REQUEST_METHOD']) {
-    case 'GET':
-        // Perform the GET operation
-        // ...
-
     case 'POST':
         $_POST = json_decode(file_get_contents('php://input'), true);
 
@@ -17,15 +13,13 @@ switch ($_SERVER['REQUEST_METHOD']) {
             $idCategorie = $_POST['id_categorie'];
 
             // Prepare the insertion query
-            $insertAlimentCategorie = $pdo->prepare("INSERT INTO aliment_categorie (id_aliment, id_categorie) VALUES (:id_aliment, :id_categorie)");
+            $insertAlimentCategorie = $pdo->prepare("INSERT INTO aliment_categories (id_aliment, id_categorie) VALUES (:id_aliment, :id_categorie)");
             $insertAlimentCategorie->bindParam(':id_aliment', $idAliment);
             $insertAlimentCategorie->bindParam(':id_categorie', $idCategorie);
 
             if ($insertAlimentCategorie->execute()) {
-                $newId = $pdo->lastInsertId();
-
                 http_response_code(201);
-                echo json_encode(['message' => 'Liaison aliment-categorie ajoutée avec succès', 'id' => $newId]);
+                echo json_encode(['message' => 'Liaison aliment-categorie ajoutée avec succès']);
             } else {
                 http_response_code(500);
                 echo json_encode(['message' => 'Échec de l\'ajout de la liaison aliment-categorie']);
@@ -33,28 +27,6 @@ switch ($_SERVER['REQUEST_METHOD']) {
         } else {
             http_response_code(400);
             echo json_encode(['message' => 'ID d\'aliment ou ID de catégorie non fourni']);
-        }
-        break;
-
-    case 'DELETE':
-        $_DELETE = json_decode(file_get_contents('php://input'), true);
-
-        if (isset($_DELETE['id'])) {
-            $idToDelete = $_DELETE['id'];
-
-            $deleteAlimentCategorie = $pdo->prepare("DELETE FROM aliment_categorie WHERE id = :id");
-            $deleteAlimentCategorie->bindParam(':id', $idToDelete);
-
-            if ($deleteAlimentCategorie->execute()) {
-                http_response_code(200);
-                echo json_encode(['message' => 'Liaison aliment-categorie supprimée avec succès']);
-            } else {
-                http_response_code(500);
-                echo json_encode(['message' => 'Échec de la suppression de la liaison aliment-categorie']);
-            }
-        } else {
-            http_response_code(400);
-            echo json_encode(['message' => 'ID de liaison aliment-categorie non fourni pour la suppression']);
         }
         break;
 
