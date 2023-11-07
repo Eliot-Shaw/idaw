@@ -1,0 +1,1 @@
+journal page affichant son journal avec possibilité d’ajouter une entrée
