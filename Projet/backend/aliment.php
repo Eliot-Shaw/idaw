@@ -2,7 +2,7 @@
 header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: *");
 
-require_once('../init_pdo.php');
+require_once('init_pdo.php');
 
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET':
@@ -24,6 +24,33 @@ switch ($_SERVER['REQUEST_METHOD']) {
             } else {
                 http_response_code(404);
                 echo json_encode(['message' => 'Aucun aliment trouvé pour cet ID']);
+            }
+        } else if (isset($_GET['aliment']) && $_GET['aliment']=='all') {
+            // Récupération de tous les aliments
+            $query = "SELECT * FROM aliments"; // Adapt this query to match your table name
+            $statement = $pdo->query($query);
+            $allAliments = $statement->fetchAll(PDO::FETCH_OBJ);
+
+
+            if ($allAliments) {
+                $alimentsData = [];
+
+                foreach ($allAliments as $aliment) {
+                    $alimentDetails = fetchAlimentDetails($pdo, $aliment->id_aliment);
+                    $alimentDescription = [
+                        'nom' => $alimentDetails->nom_aliment,
+                        'nom_categorie' => $alimentDetails->nom_categorie,
+                        'elements_composes' => fetchElements($pdo, $aliment->id_aliment),
+                        'composition_nutritionnelle' => fetchCompositionNutritionnelle($pdo, $aliment->id_aliment),
+                    ];
+                    $alimentsData[] = $alimentDescription;
+                }
+
+                http_response_code(200);
+                echo json_encode($alimentsData);
+            } else {
+                http_response_code(404);
+                echo json_encode(['message' => 'Aucun aliment trouvé']);
             }
         } else {
             http_response_code(400);
