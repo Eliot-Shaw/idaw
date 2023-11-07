@@ -6,8 +6,8 @@
     $request_create->execute();
     $request_create->closeCursor();
 
-    $sql_fill = file_get_contents('sql/fill_db.sql');
-    $request_fill = $pdo->prepare($sql_fill);
-    $request_fill->execute();
-    $request_fill->closeCursor(); 
+    // $sql_fill = file_get_contents('sql/fill_db.sql');
+    // $request_fill = $pdo->prepare($sql_fill);
+    // $request_fill->execute();
+    // $request_fill->closeCursor(); 
 ?>
