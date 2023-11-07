@@ -1,3 +1,7 @@
+<button onclick="window.location.href = 'index.php?page=addAliment';">Ajouter un aliment</button>
+<br>
+<br>
+
 <script>
     var base_url = "<?php echo _BASE_URL; ?>";
     
@@ -67,7 +71,6 @@
             <th>Nom</th>
             <th>Categorie</th>
             <th>Action</th>
-            <th><button onclick="window.location.href = 'index.php?page=addAliment';">Ajouter</button></th>
         </tr>
     </thead>
 </table>
