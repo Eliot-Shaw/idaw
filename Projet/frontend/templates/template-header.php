@@ -33,23 +33,32 @@
                 'accueil' => 'Accueil',
                 'profil' => 'Profil',
                 'aliments' => 'Aliments',
+                'addAliment' => 'Ajouter des aliments',
+                'editAliment' => 'Editer des aliments',
                 'journal' => 'Journal',
             );
             $oppLanguage = 'en';
         }else{
-            $mymenu = array(
-                'accueil' => 'Accueil',
-                'profil' => 'Profil',
-                'aliments' => 'Aliments',
-                'journal' => 'Journal',
-            );
-            $oppLanguage = 'fr';
+            // $mymenu = array(
+            //     'accueil' => 'Accueil',
+            //     'profil' => 'Profil',
+            //     'aliments' => 'Aliments',
+            //     'addAliment' => 'Ajouter des aliments',
+            //     'journal' => 'Journal',
+            // );
+            // $oppLanguage = 'fr';
         }
+        $ommitmenu = array(
+            'addAliment' => 'Ajouter des aliments',
+            'editAliment' => 'Editer des aliments',
+        );
         
         $picPath = array(
             'accueil' => 'logo.png',
             'profil' => 'photo.jpg',
             'aliments' => 'panier.png',
+            'addAliment' => 'panier.png',
+            'editAliment' => 'panier.png',
             'journal' => 'journal.png',
         );
 
@@ -69,9 +78,9 @@
         
         require_once('templates/template-nav_menu.php');
         foreach($mymenu as $pageId => $elementMenu) {
-            $isCurrent = false;
+            if(!array_key_exists($pageId, $ommitmenu)){$isCurrent = false;
             if($currentPageId == $pageId){$isCurrent = true;}
-            renderMenuToHTML($pageId, $elementMenu, $isCurrent, $currentLanguage);
+            renderMenuToHTML($pageId, $elementMenu, $isCurrent, $currentLanguage);}
         }
         echo "</div><div class=\"contenu\">";
     }

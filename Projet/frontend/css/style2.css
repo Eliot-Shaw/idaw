@@ -84,9 +84,9 @@ hr.darker.tres {
     border: 0;height: 3px;background: rgba(0, 0, 0, 0.2);
 }
 
-button{
+button, button:hover{
     background-color:#e09f3e;
-    border-radius: 8px;
+    color: #000000;
     border:rgba((51, 90, 102, 0), 0);
     height: 26.7px;
     text-align: center;

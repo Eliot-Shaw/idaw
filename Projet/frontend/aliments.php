@@ -18,7 +18,7 @@
                         return  '<button onclick="copyAlimentID(' + row.id_aliment + ', this)">Copier ID</button>' +
                                 '<button onclick="deleteAliment(' + row.id_aliment + ')">Supprimer</button>';
                     }
-                }
+                },
             ]
         });
     });
@@ -67,6 +67,7 @@
             <th>Nom</th>
             <th>Categorie</th>
             <th>Action</th>
+            <th><button onclick="window.location.href = 'index.php?page=addAliment';">Ajouter</button></th>
         </tr>
     </thead>
 </table>
