@@ -86,10 +86,11 @@ hr.darker.tres {
 }
 
 button{
+    background-color:#e09f3e;
     border-radius: 8px;
-    border:none;
-    width: 50px;
+    border:rgba((51, 90, 102, 0), 0);
     height: 26.7px;
+    text-align: center;
 }
 
 .englishFlag{

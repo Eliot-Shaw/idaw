@@ -1,8 +1,9 @@
+
 <?php
+require_once('init_pdo.php');
+
 header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: *");
-
-require_once('init_pdo.php');
 
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET':
@@ -13,7 +14,8 @@ switch ($_SERVER['REQUEST_METHOD']) {
             $alimentDetails = fetchAlimentDetails($pdo, $alimentId);
             if ($alimentDetails) {
                 $alimentDescription = [
-                    'nom' => $alimentDetails->nom_aliment,
+                    'id_aliment' => $alimentId,
+                    'nom_aliment' => $alimentDetails->nom_aliment,
                     'nom_categorie' => $alimentDetails->nom_categorie,
                     'elements_composes' => fetchElements($pdo, $alimentId),
                     'composition_nutritionnelle' => fetchCompositionNutritionnelle($pdo, $alimentId),
@@ -38,7 +40,8 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 foreach ($allAliments as $aliment) {
                     $alimentDetails = fetchAlimentDetails($pdo, $aliment->id_aliment);
                     $alimentDescription = [
-                        'nom' => $alimentDetails->nom_aliment,
+                        'id_aliment' => $aliment->id_aliment,
+                        'nom_aliment' => $alimentDetails->nom_aliment,
                         'nom_categorie' => $alimentDetails->nom_categorie,
                         'elements_composes' => fetchElements($pdo, $aliment->id_aliment),
                         'composition_nutritionnelle' => fetchCompositionNutritionnelle($pdo, $aliment->id_aliment),
@@ -146,13 +149,16 @@ switch ($_SERVER['REQUEST_METHOD']) {
 $pdo = null;
 
 function fetchAlimentDetails($pdo, $alimentId) {
-    $request = $pdo->prepare("SELECT a.nom_aliment, c.nom_categorie FROM aliments a 
+    $request = $pdo->prepare("SELECT a.nom_aliment, c.nom_categorie 
+        FROM aliments a 
         JOIN aliment_categories ac ON a.id_aliment = ac.id_aliment 
         JOIN categories c ON c.id_categorie = ac.id_categorie 
         WHERE a.id_aliment = :alimentId");
     $request->execute(['alimentId' => $alimentId]);
     return $request->fetch(PDO::FETCH_OBJ);
 }
+
+
 
 function fetchElements($pdo, $alimentId) {
     $request = $pdo->prepare("SELECT ca.id_aliment_compose, a.nom_aliment, ca.pourcentage_aliment FROM aliments a 

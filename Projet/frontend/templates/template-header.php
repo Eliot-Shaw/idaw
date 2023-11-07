@@ -9,30 +9,6 @@
                 <link rel=\"stylesheet\" href=\"https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css\" />
                 <script src=\"https://code.jquery.com/jquery-3.7.1.js\"></script>
                 <script src=\"https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js\"></script>
-                <script>
-                    document.addEventListener(\"DOMContentLoaded\", function() {
-                        const datatable = new DataTable('#table', {
-                            ajax:\"/IDAW/TP4-API/exo5/users.php\",
-                            pageLength:10,
-                            lengthMenu:[[10,20,50],['Dix','Vingt','Cinquante']],
-                            processing:true,
-                            serverSide:false,
-                            serverMethod:\"get\",
-
-                            columns:[
-                                {
-                                    data: \"id\",
-                                },
-                                {
-                                    data: \"nom\",
-                                },
-                                {
-                                    data: \"email\",
-                                },
-                            ]
-                        });
-                    });
-                </script>
                 
                 <link rel=\"stylesheet\" href=\"
     ";
@@ -49,6 +25,8 @@
 ?>
 
 <?php
+    require_once('config.php');
+
     function renderHeaderToHTML($currentPageId, $currentLanguage) {
         if($currentLanguage == 'fr'){
             $mymenu = array(
