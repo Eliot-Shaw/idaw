@@ -2,7 +2,7 @@
 header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: *");
 
-require_once('init_pdo.php');
+require_once('../init_pdo.php');
 
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET':
@@ -58,7 +58,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
         }
         break;
 // -----------------------------------------------------------------------------------------------
-case 'PUT':
+    case 'PUT':
         $_PUT = json_decode(file_get_contents('php://input'), true);
 
         // Vérifier si l'ID de l'aliment et le nouveau nom sont fournis dans la requête PUT
