@@ -10,7 +10,7 @@ body{
     display: flex;
     flex-direction: column;
     background-color: #000000;
-    background-image: url("../images/haloween-pattern.png");
+    background-image: url("../imgs/haloween-pattern.png");
 }
 
 header{
@@ -92,13 +92,13 @@ button{
 }
 
 .englishFlag{
-    background-image: url("../images/englishFlag.jpg");
+    background-image: url("../imgs/englishFlag.jpg");
     background-size: 50px, 26.6px;
     background-repeat: no-repeat;
 }
 
 .frenchFlag{
-    background-image: url("../images/frenchFlag.jpg");
+    background-image: url("../imgs/frenchFlag.jpg");
     background-size: 50px, 26.6px;
     background-repeat: no-repeat;
 }
