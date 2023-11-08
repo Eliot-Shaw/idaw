@@ -91,13 +91,13 @@ switch ($_SERVER['REQUEST_METHOD']) {
         $_PUT = json_decode(file_get_contents('php://input'), true);
 
         // Vérifier si l'ID de l'aliment et le nouveau nom sont fournis dans la requête PUT
-        if (isset($_PUT['id_aliment']) && isset($_PUT['nouveau_nom_aliment'])) {
+        if (isset($_PUT['id_aliment']) && isset($_PUT['nom_aliment'])) {
             $idAliment = $_PUT['id_aliment'];
-            $nouveauNomAliment = $_PUT['nouveau_nom_aliment'];
+            $nouveauNomAliment = $_PUT['nom_aliment'];
 
             // Préparation de la requête de mise à jour
-            $updateAliment = $pdo->prepare("UPDATE aliments SET nom_aliment = :nouveau_nom_aliment WHERE id_aliment = :id_aliment");
-            $updateAliment->bindParam(':nouveau_nom_aliment', $nouveauNomAliment);
+            $updateAliment = $pdo->prepare("UPDATE aliments SET nom_aliment = :nom_aliment WHERE id_aliment = :id_aliment");
+            $updateAliment->bindParam(':nom_aliment', $nouveauNomAliment);
             $updateAliment->bindParam(':id_aliment', $idAliment);
 
             // Exécution de la requête

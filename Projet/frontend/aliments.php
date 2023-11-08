@@ -1,3 +1,7 @@
+<button onclick="window.location.href = 'index.php?page=addAliment';">Ajouter un aliment</button>
+<br>
+<br>
+
 <script>
     var base_url = "<?php echo _BASE_URL; ?>";
 
@@ -16,7 +20,8 @@
                     "data": "id_aliment",
                     "render": function (data, type, row) {
                         return '<button onclick="copyAlimentID(' + row.id_aliment + ', this)">Copier ID</button>' +
-                            '<button onclick="deleteAliment(' + row.id_aliment + ')">Supprimer</button>';
+                            '<button onclick="deleteAliment(' + row.id_aliment + ')">Supprimer</button>' +
+                            '<button onclick=\"window.location.href = \'index.php?page=addAliment&id_aliment=' + row.id_aliment + '\';\">Editer</button>';
                     }
                 },
             ]
@@ -67,7 +72,6 @@
             <th>Nom</th>
             <th>Categorie</th>
             <th>Action</th>
-            <th><button onclick="window.location.href = 'index.php?page=addAliment';">Ajouter</button></th>
         </tr>
     </thead>
 </table>
