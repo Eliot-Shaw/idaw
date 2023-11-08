@@ -20,7 +20,8 @@
                     "data": "id_aliment",
                     "render": function (data, type, row) {
                         return  '<button onclick="copyAlimentID(' + row.id_aliment + ', this)">Copier ID</button>' +
-                                '<button onclick="deleteAliment(' + row.id_aliment + ')">Supprimer</button>';
+                                '<button onclick="deleteAliment(' + row.id_aliment + ')">Supprimer</button>'+
+                                '<button onclick=\"window.location.href = \'index.php?page=addAliment&id_aliment='+row.id_aliment+'\';\">Editer</button>';
                     }
                 },
             ]
