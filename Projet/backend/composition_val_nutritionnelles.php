@@ -34,6 +34,28 @@ switch ($_SERVER['REQUEST_METHOD']) {
         }
         break;
 
+    case 'DELETE':
+        $_DELETE = json_decode(file_get_contents('php://input'), true);
+
+        if (isset($_DELETE['id_aliment'])) {
+            $idAliment = $_DELETE['id_aliment'];
+
+            // Prepare the insertion query
+            $insertAlimentCategorie = $pdo->prepare("DELETE FROM composition_val_nutritionnelles WHERE id_aliment=:id_aliment");
+            $insertAlimentCategorie->bindParam(':id_aliment', $idAliment);
+
+            if ($insertAlimentCategorie->execute()) {
+                http_response_code(200);
+                echo json_encode(['message' => 'Liaison aliment-val_nutritionnelles supprimmée avec succès']);
+            } else {
+                http_response_code(500);
+                echo json_encode(['message' => 'Échec de la suppression de la liaison aliment-val_nutritionnelles']);
+            }
+        } else {
+            http_response_code(400);
+            echo json_encode(['message' => 'ID d\'aliment ou ID de catégorie non fourni']);
+        }
+        break;
     default:
         http_response_code(405);
         echo json_encode(['message' => 'Méthode non autorisée']);
