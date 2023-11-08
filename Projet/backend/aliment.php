@@ -1,4 +1,3 @@
-
 <?php
 require_once('init_pdo.php');
 
@@ -27,7 +26,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 http_response_code(404);
                 echo json_encode(['message' => 'Aucun aliment trouvé pour cet ID']);
             }
-        } else if (isset($_GET['aliment']) && $_GET['aliment']=='all') {
+        } else if (isset($_GET['aliment']) && $_GET['aliment'] == 'all') {
             // Récupération de tous les aliments
             $query = "SELECT * FROM aliments"; // Adapt this query to match your table name
             $statement = $pdo->query($query);
@@ -60,7 +59,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
             echo json_encode(['message' => 'ID d\'aliment non valide ou non fourni']);
         }
         break;
-// -----------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------
     case 'POST':
         $_POST = json_decode(file_get_contents('php://input'), true);
 
@@ -87,7 +86,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
             echo json_encode(['message' => 'Nom d\'aliment non fourni']);
         }
         break;
-// -----------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------
     case 'PUT':
         $_PUT = json_decode(file_get_contents('php://input'), true);
 
@@ -114,7 +113,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
             echo json_encode(['message' => 'ID d\'aliment ou nouveau nom d\'aliment non fourni']);
         }
         break;
-// -----------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------
     case 'DELETE':
         $_DELETE = json_decode(file_get_contents('php://input'), true);
 
@@ -139,7 +138,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
             echo json_encode(['message' => 'ID d\'aliment non fourni pour la suppression']);
         }
         break;
-        
+
     default:
         http_response_code(405);
         echo json_encode(['message' => 'Méthode non autorisée']);
@@ -148,7 +147,8 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
 $pdo = null;
 
-function fetchAlimentDetails($pdo, $alimentId) {
+function fetchAlimentDetails($pdo, $alimentId)
+{
     $request = $pdo->prepare("SELECT a.nom_aliment, c.nom_categorie 
         FROM aliments a 
         JOIN aliment_categories ac ON a.id_aliment = ac.id_aliment 
@@ -160,7 +160,8 @@ function fetchAlimentDetails($pdo, $alimentId) {
 
 
 
-function fetchElements($pdo, $alimentId) {
+function fetchElements($pdo, $alimentId)
+{
     $request = $pdo->prepare("SELECT ca.id_aliment_compose, a.nom_aliment, ca.pourcentage_aliment FROM aliments a 
         JOIN composition_aliment ca ON a.id_aliment = ca.id_aliment_compose 
         WHERE ca.id_aliment_parent = :alimentId");
@@ -169,7 +170,8 @@ function fetchElements($pdo, $alimentId) {
 }
 
 
-function fetchCompositionNutritionnelle($pdo, $alimentId) {
+function fetchCompositionNutritionnelle($pdo, $alimentId)
+{
     $request = $pdo->prepare("SELECT COUNT(*) AS count_elements FROM composition_aliment WHERE id_aliment_parent = :alimentId");
     $request->execute(['alimentId' => $alimentId]);
     $count = $request->fetch(PDO::FETCH_OBJ)->count_elements;

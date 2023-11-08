@@ -6,7 +6,7 @@ require_once('init_pdo.php');
 
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET':
-        if (isset($_GET['utilisateur'])){
+        if (isset($_GET['utilisateur'])) {
 
             if ($_GET['utilisateur'] === 'all') {
                 $request = $pdo->prepare("SELECT * FROM utilisateurs");
@@ -15,25 +15,51 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
                 $usersWithMetabolism = [];
                 foreach ($utilisateurs as $userInfo) {
-                    $userInfo->metabolisme = calculerMetabolisme($pdo, $userInfo);;
+                    $userInfo->metabolisme = calculerMetabolisme($pdo, $userInfo);
+                    ;
                     $usersWithMetabolism[] = $userInfo;
                 }
 
                 http_response_code(200);
                 echo json_encode($usersWithMetabolism);
+
+            } else if ($_GET['utilisateur'] == 'check') {
+                // Récupération des mdp et identifiants
+
+                $query = "SELECT identifiant, mdp FROM utilisateurs"; // Adapt this query to match your table name
+                $statement = $pdo->query($query);
+                $allLienMdpUser = $statement->fetchAll(PDO::FETCH_OBJ);
+
+
+                if ($allLienMdpUser) {
+                    $usersData = [];
+
+                    foreach ($allLienMdpUser as $lienMdpUser) {
+
+                        $usersData[$lienMdpUser->identifiant] = $lienMdpUser->mdp;
+
+                    }
+
+                    http_response_code(200);
+                    echo json_encode($usersData);
+                } else {
+                    http_response_code(404);
+                    echo json_encode(['message' => 'Aucun utilisateur trouvé']);
+                }
             } elseif (!is_numeric($_GET['utilisateur'])) {
                 http_response_code(400);
                 echo json_encode(array('message' => 'Mauvaise valeur pour utilisateur'));
-            } else{
+
+            } else {
                 $userId = $_GET['utilisateur'];
 
                 $request_user = $pdo->prepare("SELECT * FROM utilisateurs WHERE id_utilisateur = :user_id");
                 $request_user->execute(['user_id' => $userId]);
                 $userInfo = $request_user->fetchAll(PDO::FETCH_OBJ)[0];
-                
+
                 // Calcul du métabolisme de l'utilisateur
                 $userInfo->metabolisme = calculerMetabolisme($pdo, $userInfo);
-                
+
 
                 $request_repas = $pdo->prepare("SELECT * FROM repas WHERE id_utilisateur = :user_id");
                 $request_repas->execute(['user_id' => $userId]);
@@ -53,7 +79,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 $request_valeurs->execute(['user_id' => $userId]);
                 $valeursTotales = $request_valeurs->fetchAll(PDO::FETCH_OBJ);
 
-                
+
 
                 $response = [
                     'details_utilisateur' => $userInfo,
@@ -69,7 +95,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
             echo json_encode(['message' => 'Variable utilisateur non fournie']);
         }
         break;
-// -----------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------
     case 'POST':
         $_POST = json_decode(file_get_contents('php://input'), true);
 
@@ -83,7 +109,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
         $age = $_POST['age'];
         $taille = $_POST['taille'];
         $poids = $_POST['poids'];
-        
+
         $insertUser = $pdo->prepare("INSERT INTO `utilisateurs` (
             `id_niveau_sport`, 
             `role`, 
@@ -126,7 +152,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
         http_response_code(201);
         echo json_encode(['message' => 'Utilisateur créé avec succès', 'id_utilisateur' => $newUserId]);
         break;
-// -----------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------
     case 'DELETE':
         $_DELETE = json_decode(file_get_contents('php://input'), true);
 
@@ -141,7 +167,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
             echo json_encode(['message' => 'ID de l\'utilisateur non fourni pour la suppression']);
         }
         break;
-// -----------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------
     case 'PUT':
         $_PUT = json_decode(file_get_contents('php://input'), true);
 
@@ -197,7 +223,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
             echo json_encode(['message' => 'ID de l\'utilisateur non fourni pour l\'édition']);
         }
         break;
-// -----------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------
     default:
         http_response_code(405);
         echo json_encode(['message' => 'Méthode non autorisée']);
@@ -207,7 +233,8 @@ $pdo = null;
 
 
 
-function calculerMetabolisme($pdo, $userInfo) {
+function calculerMetabolisme($pdo, $userInfo)
+{
     // Récupération du coefficient de sport associé à l'utilisateur depuis la base de données
     $request_coef_sport = $pdo->prepare("SELECT coef_sport FROM niveau_sport WHERE id_niveau_sport = :niveau_sport_id");
     $request_coef_sport->execute(['niveau_sport_id' => $userInfo->id_niveau_sport]);

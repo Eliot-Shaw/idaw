@@ -1,6 +1,6 @@
 <script>
     var base_url = "<?php echo _BASE_URL; ?>";
-    
+
     $(document).ready(function () {
         $('#alimentsTable').DataTable({
             "processing": true,
@@ -15,8 +15,8 @@
                 {
                     "data": "id_aliment",
                     "render": function (data, type, row) {
-                        return  '<button onclick="copyAlimentID(' + row.id_aliment + ', this)">Copier ID</button>' +
-                                '<button onclick="deleteAliment(' + row.id_aliment + ')">Supprimer</button>';
+                        return '<button onclick="copyAlimentID(' + row.id_aliment + ', this)">Copier ID</button>' +
+                            '<button onclick="deleteAliment(' + row.id_aliment + ')">Supprimer</button>';
                     }
                 },
             ]
@@ -28,7 +28,7 @@
         navigator.clipboard.writeText(id)
             .then(() => {
                 button.innerText = 'Copié !';
-                setTimeout(function() {
+                setTimeout(function () {
                     button.innerText = 'Copier ID';
                 }, 2000); // Remettre le texte initial après 2 secondes
             })
@@ -46,18 +46,18 @@
             },
             body: JSON.stringify({ id_aliment: id }),
         })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Erreur lors de la suppression de l\'aliment');
-            }
-            return response.json();
-        })
-        .then(data => {
-            $('#alimentsTable').DataTable().ajax.reload();
-        })
-        .catch(error => {
-            console.error('Erreur lors de la suppression de l\'aliment :', error);
-        });
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erreur lors de la suppression de l\'aliment');
+                }
+                return response.json();
+            })
+            .then(data => {
+                $('#alimentsTable').DataTable().ajax.reload();
+            })
+            .catch(error => {
+                console.error('Erreur lors de la suppression de l\'aliment :', error);
+            });
     }
 </script>
 
