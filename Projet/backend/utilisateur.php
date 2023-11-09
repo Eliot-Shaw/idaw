@@ -23,18 +23,18 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 http_response_code(200);
                 echo json_encode($usersWithMetabolism);
 
-            }elseif (!is_numeric($_GET['id_utilisateur'])) {
+            } elseif (!is_numeric($_GET['id_utilisateur'])) {
                 http_response_code(400);
                 echo json_encode(array('message' => 'Mauvaise valeur pour utilisateur'));
 
-            }else {
+            } else {
                 $userId = $_GET['id_utilisateur'];
-            
+
                 // Vérifie si l'utilisateur avec l'ID spécifié existe
                 $checkUser = $pdo->prepare("SELECT * FROM utilisateurs WHERE id_utilisateur = :user_id");
                 $checkUser->execute(['user_id' => $userId]);
                 $userInfo = $checkUser->fetch(PDO::FETCH_OBJ);
-            
+
                 if ($userInfo) {
                     $request_user = $pdo->prepare("SELECT * FROM utilisateurs WHERE id_utilisateur = :user_id");
                     $request_user->execute(['user_id' => $userId]);
@@ -72,28 +72,28 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
                     http_response_code(200);
                     echo json_encode($response);
-                }else {
+                } else {
                     http_response_code(404);
                     echo json_encode(['message' => 'Utilisateur introuvable']);
                 }
             }
-        }else if (isset($_GET['check'])) {
+        } else if (isset($_GET['check'])) {
             if (isset($_GET['identifiant']) && isset($_GET['mdp'])) {
                 $identifiant = $_GET['identifiant'];
                 $mdp = $_GET['mdp'];
-        
+
                 // Recherche de l'utilisateur correspondant à l'identifiant
                 $checkUser = $pdo->prepare("SELECT id_utilisateur, identifiant, mdp FROM utilisateurs WHERE identifiant = :identifiant");
                 $checkUser->execute(['identifiant' => $identifiant]);
                 $userInfo = $checkUser->fetch(PDO::FETCH_OBJ);
-        
+
                 if ($userInfo) {
                     // Vérification du mot de passe
-                    if ($mdp== $userInfo->mdp) {
+                    if ($mdp == $userInfo->mdp) {
                         $_SESSION['id_utilisateur'] = $userInfo->id_utilisateur;
                         $_SESSION['identifiant'] = $userInfo->identifiant;
                         http_response_code(200);
-                        echo json_encode(['message' => 'Connexion réussie', 'id_utilisateur'=>$userInfo->id_utilisateur]);
+                        echo json_encode(['message' => 'Connexion réussie', 'id_utilisateur' => $userInfo->id_utilisateur]);
                     } else {
                         http_response_code(401);
                         echo json_encode(['message' => 'Mot de passe incorrect']);
