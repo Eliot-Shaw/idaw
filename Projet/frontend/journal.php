@@ -26,6 +26,7 @@
 
 <script>
     var base_url = "<?php echo _BASE_URL; ?>";
+    hideLoginMessage();
 
     $(document).ready(function () {
         $('#dateRangeForm').on('submit', function (e) {
@@ -51,16 +52,16 @@
                         hideLoginMessage(); // Masquer le message de connexion si tout est bon
                     });
                 } else if (response.status === 403) {
-                    console.error('Accès interdit (403) : Utilisateur non connecté');
+                    console.log('Accès interdit (403) : Utilisateur non connecté');
                     alert('Accès interdit : Veuillez vous connecter.');
                     displayLoginMessage(); // Afficher le message de connexion
                 } else {
-                    console.error('Erreur inattendue : ', response.status);
+                    console.log('Erreur inattendue : ', response.status);
                     displayLoginMessage(); // Afficher le message de connexion
                 }
             })
             .catch(error => {
-                console.error('Erreur lors de la récupération des données :', error);
+                console.log('Erreur lors de la récupération des données :', error);
                 displayLoginMessage(); // Afficher le message de connexion
             });
     }
@@ -114,7 +115,7 @@
                 $('#repasTable').DataTable().ajax.reload();
             })
             .catch(error => {
-                console.error('Erreur lors de la suppression du repas :', error);
+                console.log('Erreur lors de la suppression du repas :', error);
             });
     }
 </script>

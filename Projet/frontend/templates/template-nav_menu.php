@@ -3,7 +3,7 @@
 <?php
     $_GET['lang'] = 'fr';
     if(isset($_GET['lang'])) $lang = $_GET['lang'];
-    if(isset($_SESSION['login'])) echo "<a href=\"pages/{$lang}/disconnect.php\">{$_SESSION['login']}</a>";
+    if(isset($_SESSION['identifiant'])) echo "<a href=\"pages/{$lang}/disconnect.php\">{$_SESSION['identifiant']}</a>";
     else echo "Menu";
     echo "</div>
     <hr class=\"darker tres\">
