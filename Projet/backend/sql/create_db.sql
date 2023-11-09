@@ -129,6 +129,7 @@ CREATE TABLE IF NOT EXISTS `categories` (
 --
 
 INSERT INTO `categories` (`id_categorie`, `nom_categorie`) VALUES
+(0, 'Aucune'),
 (1, 'France'),
 (2, 'Allemagne'),
 (3, 'Espagne'),
