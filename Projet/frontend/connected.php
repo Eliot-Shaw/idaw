@@ -3,7 +3,7 @@
 
 <script>
     var base_url = "<?php echo _BASE_URL; ?>";
-    var $userData;
+    var userData;
 
     $(document).ready(function () {
         $.ajax({
@@ -15,10 +15,10 @@
                 // Vous pouvez les stocker dans une variable ou les utiliser directement
 
                 // Exemple de stockage dans une variable
-                $userData = data;
+                userData = data;
 
                 // Vous pouvez maintenant utiliser userData dans la page
-                console.log($userData); // Affichez les données dans la console du navigateur
+                console.log(userData); // Affichez les données dans la console du navigateur
             },
             error: function () {
                 // Une erreur s'est produite lors de la récupération des données
@@ -33,6 +33,7 @@
 session_start();
 // on simule une base de données
 print_r($userData);
+print_r(gettype($userData));
 
 $login = "anonymous";
 $errorText = "";

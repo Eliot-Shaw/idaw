@@ -25,7 +25,6 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
             } else if ($_GET['utilisateur'] == 'check') {
                 // Récupération des mdp et identifiants
-
                 $query = "SELECT identifiant, mdp FROM utilisateurs"; // Adapt this query to match your table name
                 $statement = $pdo->query($query);
                 $allLienMdpUser = $statement->fetchAll(PDO::FETCH_OBJ);
@@ -41,7 +40,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                     }
 
                     http_response_code(200);
-                    echo json_encode($usersData);
+                    echo json_encode($usersData); // message de validation + id + identifiant
                 } else {
                     http_response_code(404);
                     echo json_encode(['message' => 'Aucun utilisateur trouvé']);
