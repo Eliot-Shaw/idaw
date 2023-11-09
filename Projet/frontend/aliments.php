@@ -19,28 +19,13 @@
                 {
                     "data": "id_aliment",
                     "render": function (data, type, row) {
-                        return '<button onclick="copyAlimentID(' + row.id_aliment + ', this)">Copier ID</button>' +
-                            '<button onclick="deleteAliment(' + row.id_aliment + ')">Supprimer</button>' +
+                        return '<button onclick="deleteAliment(' + row.id_aliment + ')">Supprimer</button>' +
                             '<button onclick=\"window.location.href = \'index.php?page=addAliment&id_aliment=' + row.id_aliment + '\';\">Editer</button>';
                     }
                 },
             ]
         });
     });
-
-    function copyAlimentID(id, button) {
-        // Copie de l'ID de l'aliment dans le presse-papiers
-        navigator.clipboard.writeText(id)
-            .then(() => {
-                button.innerText = 'Copié !';
-                setTimeout(function () {
-                    button.innerText = 'Copier ID';
-                }, 2000); // Remettre le texte initial après 2 secondes
-            })
-            .catch(err => {
-                console.error('Erreur lors de la copie de l\'ID :', err);
-            });
-    }
 
     // La fonction deleteAliment reste inchangée
     function deleteAliment(id) {
