@@ -75,7 +75,7 @@ INSERT INTO `aliments` (`id_aliment`, `nom_aliment`) VALUES
 DROP TABLE IF EXISTS `aliment_categories`;
 CREATE TABLE IF NOT EXISTS `aliment_categories` (
   `id_aliment` int NOT NULL,
-  `id_categorie` int NOT NULL,
+  `id_categorie` int DEFAULT 0,
   PRIMARY KEY (`id_aliment`,`id_categorie`),
   KEY `id_categorie` (`id_categorie`)
 );
@@ -183,7 +183,6 @@ INSERT INTO `categories` (`id_categorie`, `nom_categorie`) VALUES
 (54, 'Kenya'),
 (55, 'Ghana'),
 (56, 'Sénégal'),
-(57, 'Côte d\'Ivoire'),
 (89, 'Produits laitiers'),
 (59, 'Maroc'),
 (60, 'Tunisie'),
