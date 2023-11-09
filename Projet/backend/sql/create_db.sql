@@ -543,8 +543,8 @@ CREATE TABLE IF NOT EXISTS `repas` (
 
 INSERT INTO `repas` (`id_repas`, `id_utilisateur`, `date_mange`) VALUES
 (1, 2, '2023-10-25'),
-(2, 3, '2023-10-25'),
-(3, 4, '2023-10-25');
+(2, 3, '2022-10-25'),
+(3, 4, '2021-10-25');
 
 -- --------------------------------------------------------
 
@@ -555,8 +555,8 @@ INSERT INTO `repas` (`id_repas`, `id_utilisateur`, `date_mange`) VALUES
 DROP TABLE IF EXISTS `utilisateurs`;
 CREATE TABLE IF NOT EXISTS `utilisateurs` (
   `id_utilisateur` int NOT NULL AUTO_INCREMENT,
-  `id_niveau_sport` int DEFAULT NULL,
-  `role` varchar(50) DEFAULT NULL,
+  `id_niveau_sport` int DEFAULT 0,
+  `role` varchar(50) DEFAULT 'membre',
   `identifiant` varchar(50) CHARACTER SET utf8mb4 DEFAULT NULL,
   `mdp` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL,
   `nom_de_famille` varchar(50) DEFAULT NULL,

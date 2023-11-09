@@ -22,7 +22,7 @@
     </form>
     <br>
 
-<section class="corps">
+<section class="corps" style="padding-right: 49.3px;">
     <?php
         if($currentLanguage == 'fr'){
             $pageToInclude = $currentPageId . ".php";
@@ -35,5 +35,6 @@
         }
     ?>
 </section>
+
 
 <?php require_once("templates/template-footer.php");?>

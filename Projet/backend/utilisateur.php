@@ -1,4 +1,5 @@
 <?php
+session_start();
 header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: *");
 
@@ -6,9 +7,9 @@ require_once('init_pdo.php');
 
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET':
-        if (isset($_GET['utilisateur'])) {
+        if (isset($_GET['id_utilisateur'])) {
 
-            if ($_GET['utilisateur'] === 'all') {
+            if ($_GET['id_utilisateur'] === 'all') {
                 $request = $pdo->prepare("SELECT * FROM utilisateurs");
                 $request->execute();
                 $utilisateurs = $request->fetchAll(PDO::FETCH_OBJ);
@@ -23,71 +24,88 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 http_response_code(200);
                 echo json_encode($usersWithMetabolism);
 
-            } else if ($_GET['utilisateur'] == 'check') {
-                // Récupération des mdp et identifiants
-                $query = "SELECT identifiant, mdp FROM utilisateurs"; // Adapt this query to match your table name
-                $statement = $pdo->query($query);
-                $allLienMdpUser = $statement->fetchAll(PDO::FETCH_OBJ);
-
-
-                if ($allLienMdpUser) {
-                    $usersData = [];
-
-                    foreach ($allLienMdpUser as $lienMdpUser) {
-
-                        $usersData[$lienMdpUser->identifiant] = $lienMdpUser->mdp;
-
-                    }
-
-                    http_response_code(200);
-                    echo json_encode($usersData); // message de validation + id + identifiant
-                } else {
-                    http_response_code(404);
-                    echo json_encode(['message' => 'Aucun utilisateur trouvé']);
-                }
-            } elseif (!is_numeric($_GET['utilisateur'])) {
+            } elseif (!is_numeric($_GET['id_utilisateur'])) {
                 http_response_code(400);
                 echo json_encode(array('message' => 'Mauvaise valeur pour utilisateur'));
 
             } else {
-                $userId = $_GET['utilisateur'];
+                $userId = $_GET['id_utilisateur'];
 
-                $request_user = $pdo->prepare("SELECT * FROM utilisateurs WHERE id_utilisateur = :user_id");
-                $request_user->execute(['user_id' => $userId]);
-                $userInfo = $request_user->fetchAll(PDO::FETCH_OBJ)[0];
+                // Vérifie si l'utilisateur avec l'ID spécifié existe
+                $checkUser = $pdo->prepare("SELECT * FROM utilisateurs WHERE id_utilisateur = :user_id");
+                $checkUser->execute(['user_id' => $userId]);
+                $userInfo = $checkUser->fetch(PDO::FETCH_OBJ);
 
-                // Calcul du métabolisme de l'utilisateur
-                $userInfo->metabolisme = calculerMetabolisme($pdo, $userInfo);
+                if ($userInfo) {
+                    $request_user = $pdo->prepare("SELECT * FROM utilisateurs WHERE id_utilisateur = :user_id");
+                    $request_user->execute(['user_id' => $userId]);
+                    $userInfo = $request_user->fetchAll(PDO::FETCH_OBJ)[0];
 
-
-                $request_repas = $pdo->prepare("SELECT * FROM repas WHERE id_utilisateur = :user_id");
-                $request_repas->execute(['user_id' => $userId]);
-                $repasInfo = $request_repas->fetchAll(PDO::FETCH_OBJ);
-
-                // Calcul des valeurs nutritionnelles totales agrégées par type pour tous les repas de l'utilisateur
-                $request_valeurs = $pdo->prepare("SELECT vn.nom_composition, SUM(cvn.quantite_composition) AS valeur_totale
-                                    FROM composition_val_nutritionnelles cvn
-                                    JOIN valeurs_nutritionnelles vn ON cvn.id_val_nutritionnelle = vn.id_composition
-                                    WHERE cvn.id_aliment IN 
-                                        (SELECT ca.id_aliment_compose FROM composition_aliment ca 
-                                        WHERE ca.id_aliment_parent IN 
-                                            (SELECT cr.id_aliment FROM composition_repas cr 
-                                            JOIN repas r ON cr.id_repas = r.id_repas 
-                                            WHERE r.id_utilisateur = :user_id))
-                                    GROUP BY vn.nom_composition");
-                $request_valeurs->execute(['user_id' => $userId]);
-                $valeursTotales = $request_valeurs->fetchAll(PDO::FETCH_OBJ);
+                    // Calcul du métabolisme de l'utilisateur
+                    $userInfo->metabolisme = calculerMetabolisme($pdo, $userInfo);
 
 
+                    $request_repas = $pdo->prepare("SELECT * FROM repas WHERE id_utilisateur = :user_id");
+                    $request_repas->execute(['user_id' => $userId]);
+                    $repasInfo = $request_repas->fetchAll(PDO::FETCH_OBJ);
 
-                $response = [
-                    'details_utilisateur' => $userInfo,
-                    'descriptions_repas' => $repasInfo,
-                    'valeurs_nutritionnelles_totales' => $valeursTotales,
-                ];
+                    // Calcul des valeurs nutritionnelles totales agrégées par type pour tous les repas de l'utilisateur
+                    $request_valeurs = $pdo->prepare("SELECT vn.nom_composition, SUM(cvn.quantite_composition) AS valeur_totale
+                                        FROM composition_val_nutritionnelles cvn
+                                        JOIN valeurs_nutritionnelles vn ON cvn.id_val_nutritionnelle = vn.id_composition
+                                        WHERE cvn.id_aliment IN 
+                                            (SELECT ca.id_aliment_compose FROM composition_aliment ca 
+                                            WHERE ca.id_aliment_parent IN 
+                                                (SELECT cr.id_aliment FROM composition_repas cr 
+                                                JOIN repas r ON cr.id_repas = r.id_repas 
+                                                WHERE r.id_utilisateur = :user_id))
+                                        GROUP BY vn.nom_composition");
+                    $request_valeurs->execute(['user_id' => $userId]);
+                    $valeursTotales = $request_valeurs->fetchAll(PDO::FETCH_OBJ);
 
-                http_response_code(200);
-                echo json_encode($response);
+
+
+                    $response = [
+                        'details_utilisateur' => $userInfo,
+                        'descriptions_repas' => $repasInfo,
+                        'valeurs_nutritionnelles_totales' => $valeursTotales,
+                    ];
+
+                    http_response_code(200);
+                    echo json_encode($response);
+                } else {
+                    http_response_code(404);
+                    echo json_encode(['message' => 'Utilisateur introuvable']);
+                }
+            }
+        } else if (isset($_GET['check'])) {
+            if (isset($_GET['identifiant']) && isset($_GET['mdp'])) {
+                $identifiant = $_GET['identifiant'];
+                $mdp = $_GET['mdp'];
+
+                // Recherche de l'utilisateur correspondant à l'identifiant
+                $checkUser = $pdo->prepare("SELECT id_utilisateur, identifiant, mdp FROM utilisateurs WHERE identifiant = :identifiant");
+                $checkUser->execute(['identifiant' => $identifiant]);
+                $userInfo = $checkUser->fetch(PDO::FETCH_OBJ);
+
+                if ($userInfo) {
+                    // Vérification du mot de passe
+                    if ($mdp == $userInfo->mdp) {
+                        $_SESSION['id_utilisateur'] = $userInfo->id_utilisateur;
+                        $_SESSION['identifiant'] = $userInfo->identifiant;
+                        http_response_code(200);
+                        echo json_encode(['message' => 'Connexion réussie', 'id_utilisateur' => $userInfo->id_utilisateur]);
+                    } else {
+                        http_response_code(401);
+                        echo json_encode(['message' => 'Mot de passe incorrect']);
+                    }
+                } else {
+                    http_response_code(404);
+                    echo json_encode(['message' => 'Identifiant non trouvé']);
+                }
+            } else {
+                http_response_code(400);
+                echo json_encode(['message' => 'Paramètres manquants pour la vérification de connexion']);
             }
         } else {
             http_response_code(400);
@@ -99,7 +117,6 @@ switch ($_SERVER['REQUEST_METHOD']) {
         $_POST = json_decode(file_get_contents('php://input'), true);
 
         $idNiveauSport = $_POST['id_niveau_sport'];
-        $role = $_POST['role'];
         $identifiant = $_POST['identifiant'];
         $mdp = $_POST['mdp'];
         $nomDeFamille = $_POST['nom_de_famille'];
@@ -110,8 +127,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
         $poids = $_POST['poids'];
 
         $insertUser = $pdo->prepare("INSERT INTO `utilisateurs` (
-            `id_niveau_sport`, 
-            `role`, 
+            `id_niveau_sport`,
             `identifiant`, 
             `mdp`, 
             `nom_de_famille`, 
@@ -122,7 +138,6 @@ switch ($_SERVER['REQUEST_METHOD']) {
             `poids`
         ) VALUES (
             :id_niveau_sport,
-            :role,
             :identifiant,
             :mdp,
             :nom_de_famille,
@@ -135,7 +150,6 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
         // Liaison des valeurs aux paramètres
         $insertUser->bindParam(':id_niveau_sport', $idNiveauSport);
-        $insertUser->bindParam(':role', $role);
         $insertUser->bindParam(':identifiant', $identifiant);
         $insertUser->bindParam(':mdp', $mdp);
         $insertUser->bindParam(':nom_de_famille', $nomDeFamille);
@@ -155,8 +169,8 @@ switch ($_SERVER['REQUEST_METHOD']) {
     case 'DELETE':
         $_DELETE = json_decode(file_get_contents('php://input'), true);
 
-        if (isset($_DELETE['utilisateur_id'])) {
-            $userId = $_DELETE['utilisateur_id'];
+        if (isset($_DELETE['id_utilisateur'])) {
+            $userId = $_DELETE['id_utilisateur'];
             $deleteUser = $pdo->prepare("DELETE FROM utilisateurs WHERE id_utilisateur = :user_id");
             $deleteUser->execute(['user_id' => $userId]);
             http_response_code(200);
@@ -170,12 +184,12 @@ switch ($_SERVER['REQUEST_METHOD']) {
     case 'PUT':
         $_PUT = json_decode(file_get_contents('php://input'), true);
 
-        if (isset($_PUT['utilisateur_id'])) {
-            $userId = $_PUT['utilisateur_id'];
+        if (isset($_PUT['id_utilisateur'])) {
+            $userId = $_PUT['id_utilisateur'];
 
             // Collecte des nouvelles données de l'utilisateur à mettre à jour
             $idNiveauSport = $_PUT['id_niveau_sport'];
-            $role = $_PUT['role'];
+            $role = 'membre';
             $identifiant = $_PUT['identifiant'];
             $mdp = $_PUT['mdp'];
             $nomDeFamille = $_PUT['nom_de_famille'];

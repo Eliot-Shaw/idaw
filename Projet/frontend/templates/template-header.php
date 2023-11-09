@@ -35,6 +35,7 @@
                 'aliments' => 'Aliments',
                 'addAliment' => 'Ajouter des aliments',
                 'addRepas' => 'Ajouter des repas',
+                'addUtilisateur' => 'Ajouter des utilisateur',
                 'journal' => 'Journal',
             );
             $oppLanguage = 'en';
@@ -51,6 +52,7 @@
         $ommitmenu = array(
             'addAliment' => 'Ajouter des aliments',
             'addRepas' => 'Ajouter des repas',
+            'addUtilisateur' => 'Ajouter des utilisateur',
         );
         
         $picPath = array(
@@ -59,6 +61,7 @@
             'aliments' => 'panier.png',
             'addAliment' => 'panier.png',
             'addRepas' => 'panier.png',
+            'addUtilisateur' => 'panier.png',
             'journal' => 'journal.png',
         );
 

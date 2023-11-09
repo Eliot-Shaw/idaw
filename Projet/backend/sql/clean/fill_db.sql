@@ -1,7 +1,7 @@
+-- https://world.openfoodfacts.org/cgi/search.pl?action=process&sort_by=random&page_size=5&json=1&fields=nutriments,ingredients,id,product_name,image_url,categories_tags
 --
 -- Base de données : `idaw_projet-food_tracker`
 --
-
 -- --------------------------------------------------------
 
 --
