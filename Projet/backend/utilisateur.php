@@ -17,7 +17,6 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 $usersWithMetabolism = [];
                 foreach ($utilisateurs as $userInfo) {
                     $userInfo->metabolisme = calculerMetabolisme($pdo, $userInfo);
-                    ;
                     $usersWithMetabolism[] = $userInfo;
                 }
 

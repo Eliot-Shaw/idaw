@@ -22,6 +22,8 @@
 </form>
 
 <script>
+    var id_utilisateur = <?php echo json_encode($_SESSION['id_utilisateur']); ?>;
+
     document.addEventListener('DOMContentLoaded', function() {
         const urlParams = new URLSearchParams(window.location.search);
         const id_repas = urlParams.get('id_repas');
@@ -104,6 +106,7 @@
                         if (xhr.status === 200) {
                             // Gérer la réussite de la modification du repas
                             console.log('Le repas a été modifié avec succès');
+                            window.location.href = 'index.php?page=journal';
                         } else {
                             console.error('Erreur lors de la modification du repas');
                         }
@@ -114,12 +117,13 @@
                     var xhr = new XMLHttpRequest();
                     xhr.open('POST', '../backend/repas.php');
                     xhr.setRequestHeader('Content-Type', 'application/json');
-                    xhr.send(JSON.stringify({ dateRepas, compositionRepas }));
+                    xhr.send(JSON.stringify({ id_utilisateur,  dateRepas, compositionRepas }));
 
                     xhr.onload = function() {
                         if (xhr.status === 201) {
                             // Gérer la réussite de l'ajout du repas
                             console.log('Le repas a été ajouté avec succès');
+                            window.location.href = 'index.php?page=journal';
                         } else {
                             console.error('Erreur lors de l\'ajout du repas');
                         }

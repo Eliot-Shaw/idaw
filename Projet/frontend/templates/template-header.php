@@ -54,6 +54,8 @@
             'addRepas' => 'Ajouter des repas',
             'addUtilisateur' => 'Ajouter des utilisateur',
         );
+
+        if(!isset($_SESSION['id_utilisateur'])) {$ommitmenu['journal'] = 'Journal';}
         
         $picPath = array(
             'accueil' => 'logo.png',

@@ -4,15 +4,9 @@ header("Access-Control-Allow-Origin: *");
 
 require_once('init_pdo.php'); // Inclure le fichier PDO
 
-// Vérifier si $_SESSION['id_utilisateur'] est défini
-if (isset($_SESSION['id_utilisateur'])) {
-    $id_utilisateur = $_SESSION['id_utilisateur'];
-} else {
-    $id_utilisateur = null; // Utilisateur non connecté
-}
-
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET':
+        $id_utilisateur = isset($_GET['id_utilisateur']) ? $_GET['id_utilisateur'] : null;
         $start_date = isset($_GET['start_date']) ? $_GET['start_date'] : null;
         $end_date = isset($_GET['end_date']) ? $_GET['end_date'] : null;
     
@@ -24,12 +18,12 @@ switch ($_SERVER['REQUEST_METHOD']) {
                         http_response_code(200);
                         echo json_encode($allRepas);
                     } else {
-                        http_response_code(404);
+                        http_response_code(200);
                         echo json_encode(['message' => 'Aucun repas trouvé']);
                     }
                 } else {
-                    http_response_code(403);
-                    echo json_encode(['message' => 'Utilisateur non connecté']);
+                    http_response_code(200);
+                    echo json_encode(['message' => 'Utilisateur non connecté', 'get'=>$_GET]);
                 }
             } else {
                 $idRepas = $_GET['id_repas'];
@@ -49,6 +43,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
         }
         break;
     case 'POST':
+        $id_utilisateur = isset($_POST['id_utilisateur']) ? $_POST['id_utilisateur'] : null;
         $data = json_decode(file_get_contents('php://input'), true);
 
         if (!empty($data['dateRepas']) && !empty($data['compositionRepas'])) {
@@ -56,7 +51,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
             $dateRepas = $data['dateRepas'];
             $insertRepas = $pdo->prepare("INSERT INTO repas (date_mange, id_utilisateur) VALUES (:date_mange, :id_utilisateur)");
             $insertRepas->bindParam(':date_mange', $dateRepas);
-            $insertRepas->bindParam(':id_utilisateur', $id_utilisateur);
+            $insertRepas->bindParam(':id_utilisateur', $data['id_utilisateur']);
             $insertRepas->execute();
             $idRepas = $pdo->lastInsertId();
 
@@ -101,11 +96,11 @@ switch ($_SERVER['REQUEST_METHOD']) {
         break;
 
     case 'PUT':
+        $id_utilisateur = isset($_PUT['id_utilisateur']) ? $_PUT['id_utilisateur'] : null;
         $data = json_decode(file_get_contents('php://input'), true);
-        $id_utilisateur = $_SESSION['id_utilisateur']; // Récupérer l'ID utilisateur de la session
     
-        if (isset($_GET['id_repas']) && !empty($data['dateRepas']) && !empty($data['compositionRepas'])) {
-            $idRepas = $_GET['id_repas'];
+        if (!empty($data['id_repas']) && !empty($data['dateRepas']) && !empty($data['compositionRepas'])) {
+            $idRepas = $data['id_repas'];
             $dateRepas = $data['dateRepas'];
     
             // Vérifier que le repas appartient à l'utilisateur avant de le mettre à jour
@@ -169,7 +164,34 @@ switch ($_SERVER['REQUEST_METHOD']) {
             echo json_encode(['message' => 'ID de repas ou données manquantes pour mettre à jour le repas']);
         }
         break;
-
+    case 'DELETE':
+        // Vérifier les paramètres requis (id_repas)
+        $id_repas = isset($_GET['id_repas']) ? $_GET['id_repas'] : null;
+    
+        if ($id_repas) {
+            // Effectuer la suppression du repas
+            $deleteRepas = $pdo->prepare("DELETE FROM repas WHERE id_repas = :id_repas");
+            $deleteRepas->bindParam(':id_repas', $id_repas);
+            $deleteRepas->execute();
+    
+            // Vérifier si la suppression a été effectuée
+            if ($deleteRepas->rowCount() > 0) {
+                // Supprimer les entrées correspondantes dans la table composition_repas
+                $deleteComposition = $pdo->prepare("DELETE FROM composition_repas WHERE id_repas = :id_repas");
+                $deleteComposition->bindParam(':id_repas', $id_repas);
+                $deleteComposition->execute();
+    
+                http_response_code(200);
+                echo json_encode(['message' => 'Le repas a été supprimé avec succès']);
+            } else {
+                http_response_code(404);
+                echo json_encode(['message' => 'Le repas avec cet ID est introuvable']);
+            }
+        } else {
+            http_response_code(400);
+            echo json_encode(['message' => 'ID de repas non fourni']);
+        }
+        break;
     default:
         http_response_code(405);
         echo json_encode(['message' => 'Méthode non autorisée']);
