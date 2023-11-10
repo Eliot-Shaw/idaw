@@ -74,7 +74,7 @@
         <header>
             <a style=\"padding-left:60px;\" href=\"index.php?page=accueil&lang=$currentLanguage\"> <img src=\"imgs/{$imagePath}\" width=\"125px\"/> </a>
             <div class=\"titre\">{$titre}</div>
-            <a href=\"index.php?page={$currentPageId}&lang=$oppLanguage\"> <img src=\"imgs/pumkin.png\" width=\"150px\"/> </a>
+            <img src=\"imgs/pumkin.png\" width=\"150px\"/>
         </header>
         
         <div class = \"preflexrow\">

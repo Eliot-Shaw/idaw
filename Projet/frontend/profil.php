@@ -1,4 +1,5 @@
 <h1>Connexion</h1>
+<div id="userDetails"></div>
 
 <div id="userInfo">
     <?php

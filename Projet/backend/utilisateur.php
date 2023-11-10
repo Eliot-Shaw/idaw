@@ -44,30 +44,83 @@ switch ($_SERVER['REQUEST_METHOD']) {
                     $userInfo->metabolisme = calculerMetabolisme($pdo, $userInfo);
 
 
-                    $request_repas = $pdo->prepare("SELECT * FROM repas WHERE id_utilisateur = :user_id");
-                    $request_repas->execute(['user_id' => $userId]);
+                    $dateDebut = isset($_GET['date_debut']) ? $_GET['date_debut'] : null;
+                    $dateFin = isset($_GET['date_fin']) ? $_GET['date_fin'] : null;
+
+                    // Construction de la requête SQL avec la clause de filtrage des dates si elles sont définies
+                    $sql = "SELECT * FROM repas WHERE id_utilisateur = :user_id";
+                    $params = ['user_id' => $userId];
+
+                    if ($dateDebut && $dateFin) {
+                        $sql .= " AND date_mange BETWEEN :date_debut AND :date_fin";
+                        $params['date_debut'] = $dateDebut;
+                        $params['date_fin'] = $dateFin;
+                    }
+
+                    $request_repas = $pdo->prepare($sql);
+                    $request_repas->execute($params);
                     $repasInfo = $request_repas->fetchAll(PDO::FETCH_OBJ);
-
+                    
+                    
+                    $valeursTotales = [];
                     // Calcul des valeurs nutritionnelles totales agrégées par type pour tous les repas de l'utilisateur
-                    $request_valeurs = $pdo->prepare("SELECT vn.nom_composition, SUM(cvn.quantite_composition) AS valeur_totale
-                                        FROM composition_val_nutritionnelles cvn
-                                        JOIN valeurs_nutritionnelles vn ON cvn.id_val_nutritionnelle = vn.id_composition
-                                        WHERE cvn.id_aliment IN 
-                                            (SELECT ca.id_aliment_compose FROM composition_aliment ca 
-                                            WHERE ca.id_aliment_parent IN 
-                                                (SELECT cr.id_aliment FROM composition_repas cr 
-                                                JOIN repas r ON cr.id_repas = r.id_repas 
-                                                WHERE r.id_utilisateur = :user_id))
-                                        GROUP BY vn.nom_composition");
-                    $request_valeurs->execute(['user_id' => $userId]);
-                    $valeursTotales = $request_valeurs->fetchAll(PDO::FETCH_OBJ);
+                    foreach ($repasInfo as $repas) {
+                        // Récupérer les aliments du repas et leur quantité depuis la table composition_repas
+                        $requestalimentsDuRepas = $pdo->prepare("SELECT id_aliment, quantite FROM composition_repas WHERE id_repas = :id_repas");
+                        $requestalimentsDuRepas->execute(['id_repas' => $repas->id_repas]);
+                        $alimentsDuRepas = $requestalimentsDuRepas->fetchAll(PDO::FETCH_OBJ);
+                                        
+                        // Pour chaque aliment du repas...
+                        foreach ($alimentsDuRepas as $aliment) {
+                            // Récupérer les compositions nutritionnelles de l'aliment
+                            $requestcompositionsNutritionnelles = $pdo->prepare("SELECT id_val_nutritionnelle, quantite_composition FROM composition_val_nutritionnelles WHERE id_aliment = :id_aliment");
+                            $requestcompositionsNutritionnelles->execute(['id_aliment' => $aliment->id_aliment]);
+                            $compositionsNutritionnelles = $requestcompositionsNutritionnelles->fetchAll(PDO::FETCH_OBJ);
 
+                            // Si l'aliment est complexe (composé d'autres aliments)...
+                            if (empty($compositionsNutritionnelles)) {
+                                $requestalimentsComposes = $pdo->prepare("SELECT id_aliment_compose, pourcentage_aliment FROM composition_aliment WHERE id_aliment_parent = :id_aliment");
+                                $requestalimentsComposes->execute(['id_aliment' => $aliment->id_aliment]);
+                                $alimentsComposes = $requestalimentsComposes->fetchAll(PDO::FETCH_OBJ);
+
+                                // Pour chaque aliment composant l'aliment complexe...
+                                foreach ($alimentsComposes as $alimentCompose) {
+                                    $requestsouscompositionsNutritionnelles = $pdo->prepare("SELECT id_val_nutritionnelle, quantite_composition FROM composition_val_nutritionnelles WHERE id_aliment = :id_aliment");
+                                    $requestsouscompositionsNutritionnelles->execute(['id_aliment' => $alimentCompose->id_aliment_compose]);
+                                    $souscompositionsNutritionnelles = $requestsouscompositionsNutritionnelles->fetchAll(PDO::FETCH_OBJ);
+                                    // Calculer la contribution à la composition nutritionnelle de l'aliment parent avec proportion
+                                    foreach ($souscompositionsNutritionnelles as $souscomposition) {
+                                        $valeurSousComposition = $souscomposition->quantite_composition * $alimentCompose->pourcentage_aliment / 100 * $aliment->quantite /100;
+                                        $valeursTotales[$souscomposition->id_val_nutritionnelle] = isset($valeursTotales[$souscomposition->id_val_nutritionnelle]) ? $valeursTotales[$souscomposition->id_val_nutritionnelle] + $valeurSousComposition : $valeurSousComposition;
+                                    }
+                                }
+                            } else {
+                                // Si l'aliment est simple, ajouter simplement ses compositions nutritionnelles
+                                foreach ($compositionsNutritionnelles as $composition) {
+                                    $valeurComposition = $composition->quantite_composition * $aliment->quantite /100;
+                                    $valeursTotales[$composition->id_val_nutritionnelle] = isset($valeursTotales[$composition->id_val_nutritionnelle]) ? $valeursTotales[$composition->id_val_nutritionnelle] + $valeurComposition : $valeurComposition;
+                                }
+                            }
+                        }
+                    }
+
+                    
+                    $valeursTotalesNommees = []; 
+                    foreach ($valeursTotales as $idCategorie => $valeur) {
+                        // Récupérer le nom de la catégorie en fonction de l'id
+                        $requestCategorieNom = $pdo->prepare("SELECT nom_composition FROM valeurs_nutritionnelles WHERE id_composition = :id_composition");
+                        $requestCategorieNom->execute(['id_composition' => $idCategorie]);
+                        $nomCategorie = $requestCategorieNom->fetch(PDO::FETCH_OBJ)->nom_composition;
+                    
+                        // Ajouter la catégorie et la valeur à $valeursTotalesNommees
+                        $valeursTotalesNommees[] = [$nomCategorie => $valeur];
+                    }
 
 
                     $response = [
                         'details_utilisateur' => $userInfo,
                         'descriptions_repas' => $repasInfo,
-                        'valeurs_nutritionnelles_totales' => $valeursTotales,
+                        'valeurs_nutritionnelles_totales' => $valeursTotalesNommees,
                     ];
 
                     http_response_code(200);

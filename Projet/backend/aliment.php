@@ -32,15 +32,15 @@ switch ($_SERVER['REQUEST_METHOD']) {
             $statement = $pdo->query($query);
             $allAliments = $statement->fetchAll(PDO::FETCH_OBJ);
 
-
             if ($allAliments) {
                 $alimentsData = [];
 
                 foreach ($allAliments as $aliment) {
                     $alimentDetails = fetchAlimentDetails($pdo, $aliment->id_aliment);
+
                     $alimentDescription = [
                         'id_aliment' => $aliment->id_aliment,
-                        'nom_aliment' => $alimentDetails->nom_aliment,
+                        'nom_aliment' => $aliment->nom_aliment,
                         'nom_categorie' => $alimentDetails->nom_categorie,
                         'elements_composes' => fetchElements($pdo, $aliment->id_aliment),
                         'composition_nutritionnelle' => fetchCompositionNutritionnelle($pdo, $aliment->id_aliment),
@@ -147,8 +147,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
 $pdo = null;
 
-function fetchAlimentDetails($pdo, $alimentId)
-{
+function fetchAlimentDetails($pdo, $alimentId){
     $request = $pdo->prepare("SELECT a.nom_aliment, c.nom_categorie 
         FROM aliments a 
         JOIN aliment_categories ac ON a.id_aliment = ac.id_aliment 
@@ -160,8 +159,7 @@ function fetchAlimentDetails($pdo, $alimentId)
 
 
 
-function fetchElements($pdo, $alimentId)
-{
+function fetchElements($pdo, $alimentId){
     $request = $pdo->prepare("SELECT ca.id_aliment_compose, a.nom_aliment, ca.pourcentage_aliment FROM aliments a 
         JOIN composition_aliment ca ON a.id_aliment = ca.id_aliment_compose 
         WHERE ca.id_aliment_parent = :alimentId");
